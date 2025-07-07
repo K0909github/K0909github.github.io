@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自己紹介ページ</title>
+    <!-- Tailwind CSSを読み込みます -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google FontsからInterフォントを読み込みます -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* 日本語はNoto Sans JP、英数字はInterフォントを適用します */
+        body {
+            font-family: 'Inter', 'Noto Sans JP', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-black flex items-center justify-center min-h-screen p-4 sm:p-6">
+
+    <!-- 自己紹介カード -->
+    <div class="bg-gray-900 w-full max-w-2xl rounded-2xl shadow-lg shadow-green-500/20 p-8 md:p-12 transform transition-all hover:shadow-xl hover:shadow-green-500/30">
+        
+        <div class="flex flex-col md:flex-row items-center md:items-start text-center md:text-left">
+            <!-- プロフィール画像 -->
+            <!-- ↓↓↓↓↓ ここの src="..." に、アップロードした画像のURLを貼り付けてください ↓↓↓↓↓ -->
+            <img 
+                class="w-32 h-32 rounded-full object-cover border-4 border-gray-700 shadow-md mb-6 md:mb-0 md:mr-8"
+                src="https://static.wixstatic.com/media/0f4c1b_983b7c6e8401459a9d28eb3bf963aad7~mv2.jpg" 
+                alt="プロフィール画像"
+                onerror="this.onerror=null;this.src='https://placehold.co/200x200/333333/a3e635?text=画像なし';"
+            >
+            
+            <div class="w-full">
+                <!-- 名前 -->
+                <h1 class="text-4xl font-bold text-green-400">吉川和之</h1>
+                
+                <!-- 肩書きや短い紹介文 -->
+                <p class="text-green-500 font-medium mt-2 text-lg">AI engineer/Researcher/大学生</p>
+            </div>
+        </div>
+
+        <!-- 自己紹介文 -->
+        <div class="mt-10">
+            <h2 class="text-2xl font-bold text-green-400 border-b-2 border-green-700 pb-2 mb-4">自己紹介</h2>
+            <p class="text-gray-300 leading-relaxed">
+                こんにちは！ウェブサイトを作りました。
+                人工知能や量子コンピュータ、脳のことを専門にやってます
+                どうぞよろしくお願いします！
+            </p>
+        </div>
+
+        <!-- ★★★★★ 新しく追加した「取り組んできたこと」セクション ★★★★★ -->
+        <div class="mt-10">
+            <h2 class="text-2xl font-bold text-green-400 border-b-2 border-green-700 pb-2 mb-4">取り組んできたことの例</h2>
+            <!-- ここのリスト内容を書き換えてください -->
+            <ul class="list-disc list-inside text-gray-300 space-y-2">
+                <li>深層学習を用いた画像認識モデルの開発</li>
+                <li>大阪大学量子ソフトウェア勉強会修了</li>
+                <li>脳波データMEG解析のためのCLIPのfinetuning</li>
+                <li>AWSとSlack APIを用いた人工知能アプリ開発</li>
+                <li>東京大学松尾研究室LLMATCH研究員</li>
+            </ul>
+        </div>
+
+        <!-- 趣味・好きなこと -->
+        <div class="mt-10">
+            <h2 class="text-2xl font-bold text-green-400 border-b-2 border-green-700 pb-2 mb-4">趣味・好きなこと</h2>
+            <div class="flex flex-wrap gap-3">
+                <span class="bg-green-900 text-green-300 text-sm font-medium px-4 py-2 rounded-full">研究</span>
+                <span class="bg-green-900 text-green-300 text-sm font-medium px-4 py-2 rounded-full">プログラミング</span>
+                <span class="bg-green-900 text-green-300 text-sm font-medium px-4 py-2 rounded-full">アニメ</span>
+                <span class="bg-green-900 text-green-300 text-sm font-medium px-4 py-2 rounded-full">ゲーム</span>
+            </div>
+        </div>
+
+        <!-- SNSリンク -->
+        <div class="mt-12">
+             <h2 class="text-2xl font-bold text-green-400 border-b-2 border-green-700 pb-2 mb-4">SNS・リンク</h2>
+            <div class="flex justify-center md:justify-start space-x-6">
+                <!-- X (旧Twitter) -->
+                <a href="https://x.com/K0909X" class="text-gray-500 hover:text-green-400 transition-colors" aria-label="X (旧Twitter)">
+                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+                </a>
+                <!-- LinkedIn -->
+                <a href="https://www.linkedin.com/in/%E5%92%8C%E4%B9%8B-%E5%90%89%E5%B7%9D-35a3ab33a/" class="text-gray-500 hover:text-green-400 transition-colors" aria-label="LinkedIn">
+                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                </a>
+                <!-- GitHub -->
+                <a href="https://github.com/K0909github" class="text-gray-500 hover:text-green-400 transition-colors" aria-label="GitHub">
+                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.168 6.839 9.492.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.031-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.378.203 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.338 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.001 10.001 0 0022 12c0-5.523-4.477-10-10-10z" clip-rule="evenodd"></path></svg>
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
