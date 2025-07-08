@@ -9,113 +9,43 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
     
-    <!-- ★★★ Google Analytics 測定コード ★★★ -->
-    <!-- 下の行の G-XXXXXXXXXX をあなたの測定IDに置き換えてください -->
+    <!-- Google Analytics 測定コード (設定済み) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-WY6717KZSQ"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
-      // TODO: 下の行の G-XXXXXXXXXX をあなたの測定IDに置き換えてください
       gtag('config', 'G-WY6717KZSQ');
     </script>
     
     <style>
-        body {
-            font-family: 'Inter', 'Noto Sans JP', sans-serif;
-            overflow: hidden; 
-        }
-        html {
-            scroll-behavior: smooth;
-        }
+        body { font-family: 'Inter', 'Noto Sans JP', sans-serif; overflow: hidden; }
+        html { scroll-behavior: smooth; }
 
         /* --- オープニング演出用のスタイル --- */
-        #splash-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 100;
-            transition: opacity 1.5s ease-out, visibility 1.5s ease-out;
-            visibility: visible;
-            opacity: 1;
-        }
-        #splash-screen.fade-out {
-            opacity: 0;
-            visibility: hidden;
-        }
-        .splash-image-container {
-            position: relative;
-            width: 90%;
-            max-width: 500px;
-            animation: pulse 2.5s infinite ease-in-out;
-        }
-        .splash-image {
-            width: 100%;
-            height: auto;
-            opacity: 0;
-            animation: fade-in 1s ease-out forwards;
-        }
-        .scan-light::after {
-            content: '';
-            position: absolute;
-            top: -100%;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0.1) 48%, rgba(34, 197, 94, 0.4) 50%, rgba(255,255,255,0.1) 52%, rgba(255,255,255,0) 100%);
-            animation: scan 3s linear infinite 1s;
-        }
-        .glitch-layer {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('https://startling-duckanoo-ddee83.netlify.app/2110581.jpg');
-            background-size: cover;
-            opacity: 0;
-        }
-        .glitch-layer:nth-child(1) {
-            animation: glitch1 2s infinite 1.5s;
-        }
-        .glitch-layer:nth-child(2) {
-            animation: glitch2 2s infinite 1.5s;
-        }
-
+        #splash-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; display: flex; justify-content: center; align-items: center; z-index: 100; transition: opacity 1.5s ease-out, visibility 1.5s ease-out; visibility: visible; opacity: 1; }
+        #splash-screen.fade-out { opacity: 0; visibility: hidden; }
+        .splash-image-container { position: relative; width: 90%; max-width: 500px; animation: pulse 2.5s infinite ease-in-out; }
+        .splash-image { width: 100%; height: auto; opacity: 0; animation: fade-in 1s ease-out forwards; }
+        .scan-light::after { content: ''; position: absolute; top: -100%; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0.1) 48%, rgba(34, 197, 94, 0.4) 50%, rgba(255,255,255,0.1) 52%, rgba(255,255,255,0) 100%); animation: scan 3s linear infinite 1s; }
+        .glitch-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url('https://startling-duckanoo-ddee83.netlify.app/2110581.jpg'); background-size: cover; opacity: 0; }
+        .glitch-layer:nth-child(1) { animation: glitch1 2s infinite 1.5s; }
+        .glitch-layer:nth-child(2) { animation: glitch2 2s infinite 1.5s; }
         @keyframes fade-in { to { opacity: 1; } }
-        @keyframes pulse {
-            0% { transform: scale(1); filter: drop-shadow(0 0 5px #22c55e); }
-            50% { transform: scale(1.03); filter: drop-shadow(0 0 15px #22c55e); }
-            100% { transform: scale(1); filter: drop-shadow(0 0 5px #22c55e); }
-        }
-        @keyframes scan {
-            0% { top: -100%; }
-            100% { top: 100%; }
-        }
-        @keyframes glitch1 {
-            0%, 2%, 4%, 20%, 22%, 100% { opacity: 0; transform: none; }
-            1% { opacity: 0.5; transform: translate(-2px, 2px); }
-            3% { opacity: 0.5; transform: translate(2px, -2px); }
-            21% { opacity: 0.5; transform: translate(-2px, -2px); }
-        }
-        @keyframes glitch2 {
-            0%, 2%, 4%, 20%, 22%, 100% { opacity: 0; transform: none; }
-            1.5% { opacity: 0.5; transform: translate(2px, 2px) skewX(-10deg); }
-            3.5% { opacity: 0.5; transform: translate(-2px, -2px) skewX(10deg); }
-            21.5% { opacity: 0.5; transform: translate(2px, -2px) skewX(-5deg); }
-        }
+        @keyframes pulse { 0% { transform: scale(1); filter: drop-shadow(0 0 5px #22c55e); } 50% { transform: scale(1.03); filter: drop-shadow(0 0 15px #22c55e); } 100% { transform: scale(1); filter: drop-shadow(0 0 5px #22c55e); } }
+        @keyframes scan { 0% { top: -100%; } 100% { top: 100%; } }
+        @keyframes glitch1 { 0%, 2%, 4%, 20%, 22%, 100% { opacity: 0; transform: none; } 1% { opacity: 0.5; transform: translate(-2px, 2px); } 3% { opacity: 0.5; transform: translate(2px, -2px); } 21% { opacity: 0.5; transform: translate(-2px, -2px); } }
+        @keyframes glitch2 { 0%, 2%, 4%, 20%, 22%, 100% { opacity: 0; transform: none; } 1.5% { opacity: 0.5; transform: translate(2px, 2px) skewX(-10deg); } 3.5% { opacity: 0.5; transform: translate(-2px, -2px) skewX(10deg); } 21.5% { opacity: 0.5; transform: translate(2px, -2px) skewX(-5deg); } }
 
+        /* --- 背景とスクロールのスタイル --- */
         #matrix-canvas { position: fixed; width: 100%; height: 100%; top: 0; left: 0; z-index: 0; }
         .scroll-wrapper { position: relative; z-index: 1; width: 100%; height: 100vh; overflow-y: auto; overflow-x: hidden; }
         .fade-in-up { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
         .fade-in-up.is-visible { opacity: 1; transform: translateY(0); }
+        
+        /* --- 証明書モーダルのスタイル --- */
+        #certificate-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.85); display: none; justify-content: center; align-items: center; z-index: 200; padding: 1rem; cursor: pointer; }
+        #certificate-modal img { max-width: 95%; max-height: 95%; border-radius: 0.5rem; box-shadow: 0 0 40px rgba(34, 197, 94, 0.6); cursor: default; }
     </style>
 </head>
 <body class="bg-black text-gray-300">
@@ -130,12 +60,28 @@
 
     <canvas id="matrix-canvas"></canvas>
 
+    <div id="certificate-modal">
+        <img id="certificate-image" src="" alt="証明書">
+    </div>
+
     <div class="scroll-wrapper">
         <div class="flex items-center justify-center min-h-screen p-4 sm:p-6 lg:p-8">
             <div class="bg-gray-900/80 backdrop-blur-sm w-full max-w-4xl rounded-2xl shadow-lg shadow-green-500/20 p-6 md:p-10 border border-gray-700/50 my-16">
                 
                 <header class="flex flex-col md:flex-row items-center md:items-start text-center md:text-left fade-in-up"><img class="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover border-4 border-gray-700 shadow-md mb-6 md:mb-0 md:mr-8 flex-shrink-0" src="https://static.wixstatic.com/media/0f4c1b_983b7c6e8401459a9d28eb3bf963aad7~mv2.jpg" alt="プロフィール画像" onerror="this.onerror=null;this.src='https://placehold.co/200x200/333333/a3e635?text=画像なし';"><div class="w-full"><h1 class="text-4xl lg:text-5xl font-bold text-green-400">K/Kazuyuki Yoshikawa</h1><p class="text-green-500 font-medium mt-2 text-lg">AI engineer/Researcher/大学生</p><p class="mt-4 text-gray-400 leading-relaxed">人工知能、脳、量子</p><div class="mt-6 flex justify-center md:justify-start space-x-4"><a href="https://github.com/K0909github" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-green-400 transition-colors" aria-label="GitHub"><svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.168 6.839 9.492.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.031-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.378.203 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.338 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.001 10.001 0 0022 12c0-5.523-4.477-10-10-10z" clip-rule="evenodd"></path></svg></a><a href="https://www.linkedin.com/in/%E5%92%8C%E4%B9%8B-%E5%90%89%E5%B7%9D-35a3ab33a/" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-green-400 transition-colors" aria-label="LinkedIn"><svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a><a href="https://x.com/K0909X" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-green-400 transition-colors" aria-label="X (旧Twitter)"><svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg></a></div></div></header>
-                <main class="mt-12"><section class="fade-in-up"><h2 class="text-2xl font-bold text-green-400 border-b-2 border-green-700 pb-2 mb-4">所属・活動</h2><ul class="space-y-3 text-gray-300"><li><span class="font-semibold text-green-300">松尾研 LLMATCH:</span> 世界モデル研究員 (一期, 二期)</li><li><span class="font-semibold text-green-300">松尾研 LLMコンペ2025:</span> 開発メンバー</li><li><span class="font-semibold text-green-300">Fast Neura:</span> Engineer&Reserchar</li><li><span class="font-semibold text-green-300">応用脳科学アカデミー (アラヤ):</span> 受講生</li><li><span class="font-semibold text-green-300">大阪大学:</span> 量子ソフトウェア勉強会 修了生</li><li><span class="font-semibold text-green-300">NAIST:</span> 計算行動神経科学スプリングセミナー 修了生</li><li><span class="font-semibold text-green-300">工学部電気電子情報工学科:</span> 量子コンピュータ研究</li></ul></section><section class="mt-10 fade-in-up"><h2 class="text-2xl font-bold text-green-400 border-b-2 border-green-700 pb-2 mb-6">開発物の例</h2><div class="grid grid-cols-1 md:grid-cols-2 gap-6"><div class="bg-gray-800 p-5 rounded-lg border border-gray-700 hover:border-green-600 hover:scale-105 transition-all"><h3 class="font-bold text-lg text-green-300">MEG脳波分類モデル</h3><p class="mt-2 text-sm text-gray-400">被験者が見ている画像のクラスを脳波から分類。CLIPのファインチューニングにより実現。</p><a href="https://github.com/K0909github/dl_lecture_competition_pub/tree/MEG-competition" target="_blank" rel="noopener noreferrer" class="inline-flex items-center mt-4 text-sm font-medium text-green-400 hover:text-green-300">GitHubで見る <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg></a></div><div class="bg-gray-800 p-5 rounded-lg border border-gray-700 hover:border-green-600 hover:scale-105 transition-all"><h3 class="font-bold text-lg text-green-300">Slack質問集約Bot</h3><p class="mt-2 text-sm text-gray-400">AWS (Bedrock, EventBridge) とSlack APIを利用し、多かった質問を24時間おきにメール通知。</p><a href="https://github.com/K0909github/cdk-slack-analyzer" target="_blank" rel="noopener noreferrer" class="inline-flex items-center mt-4 text-sm font-medium text-green-400 hover:text-green-300">GitHubで見る <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg></a></div><div class="bg-gray-800 p-5 rounded-lg border border-gray-700 hover:border-green-600 hover:scale-105 transition-all"><h3 class="font-bold text-lg text-green-300">Fashion Item Classifier</h3><p class="mt-2 text-sm text-gray-400">カメラ画像の服や靴の種類を判別するStreamlitアプリ。訓練済みモデルを利用して構築。</p><a href="https://github.com/K0909github/fashion_item_clssifier" target="_blank" rel="noopener noreferrer" class="inline-flex items-center mt-4 text-sm font-medium text-green-400 hover:text-green-300">GitHubで見る <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg></a></div><div class="bg-gray-800 p-5 rounded-lg border border-gray-700 hover:border-green-600 hover:scale-105 transition-all"><h3 class="font-bold text-lg text-green-300">日本語LLMファインチューニング</h3><p class="mt-2 text-sm text-gray-400">`llm-jp-13b`モデルを`ichikara-instruction`データセットでファインチューニング。</p><a href="https://huggingface.co/K0909/llm-jp-3-13b-it_lora" target="_blank" rel="noopener noreferrer" class="inline-flex items-center mt-4 text-sm font-medium text-green-400 hover:text-green-300">Hugging Faceで見る <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg></a></div></div></section><section class="mt-10 fade-in-up"><h2 class="text-2xl font-bold text-green-400 border-b-2 border-green-700 pb-2 mb-4">スキル・資格</h2><div class="flex flex-wrap gap-3"><span class="bg-green-900 text-green-300 text-sm font-medium px-4 py-2 rounded-full">基本情報技術者</span><span class="bg-green-900 text-green-300 text-sm font-medium px-4 py-2 rounded-full">G検定</span><span class="bg-green-900 text-green-300 text-sm font-medium px-4 py-2 rounded-full">E資格</span><span class="bg-green-900 text-green-300 text-sm font-medium px-4 py-2 rounded-full">統計検定2級</span><a href="https://atcoder.jp/users/K0909" target="_blank" rel="noopener noreferrer" class="bg-gray-700 text-yellow-300 text-sm font-medium px-4 py-2 rounded-full hover:bg-gray-600 transition-colors">競プロ (AtCoder 茶)</a><a href="https://www.kaggle.com/k0909kaggle" target="_blank" rel="noopener noreferrer" class="bg-gray-700 text-blue-300 text-sm font-medium px-4 py-2 rounded-full hover:bg-gray-600 transition-colors">Kaggle Contributer</a></div></section><section class="mt-10 fade-in-up"><h2 class="text-2xl font-bold text-green-400 border-b-2 border-green-700 pb-2 mb-4">趣味</h2><div class="flex flex-wrap gap-3"><span class="bg-green-900 text-green-300 text-sm font-medium px-4 py-2 rounded-full">研究</span><span class="bg-green-900 text-green-300 text-sm font-medium px-4 py-2 rounded-full">開発</span><span class="bg-green-900 text-green-300 text-sm font-medium px-4 py-2 rounded-full">プログラミング</span><span class="bg-green-900 text-green-300 text-sm font-medium px-4 py-2 rounded-full">アニメ</span><span class="bg-green-900 text-green-300 text-sm font-medium px-4 py-2 rounded-full">ゲーム</span></div></section><section class="mt-10 fade-in-up"><h2 class="text-2xl font-bold text-green-400 border-b-2 border-green-700 pb-2 mb-4">主な受講歴 (松尾研)</h2><p class="font-semibold text-gray-300">2024年 修了:</p><p class="text-sm text-gray-400 mb-3">世界モデル, 大規模言語モデル, 深層生成モデル, 深層強化学習, DL基礎, 金融市場取引と機械学習, GCI</p><p class="font-semibold text-gray-300">2025年 受講中:</p><p class="text-sm text-gray-400">PhysicalAI, AIエンジニアリング</p></section></main>
+                <main class="mt-12">
+                    <section class="fade-in-up"><h2 class="text-2xl font-bold text-green-400 border-b-2 border-green-700 pb-2 mb-4">所属・活動</h2><ul class="space-y-3 text-gray-300"><li><span class="font-semibold text-green-300">松尾研 LLMATCH:</span> 世界モデル研究員 (一期, 二期)</li><li><span class="font-semibold text-green-300">松尾研 LLMコンペ2025:</span> 開発メンバー</li><li><span class="font-semibold text-green-300">Fast Neura:</span> Engineer&Reserchar</li><li><span class="font-semibold text-green-300">応用脳科学アカデミー (アラヤ):</span> 受講生</li><li><span class="font-semibold text-green-300">大阪大学:</span> 量子ソフトウェア勉強会 修了生</li><li><span class="font-semibold text-green-300">NAIST:</span> 計算行動神経科学スプリングセミナー 修了生</li><li><span class="font-semibold text-green-300">工学部電気電子情報工学科:</span> 量子コンピュータ研究</li></ul></section>
+                    
+                    <section class="mt-10 fade-in-up"><h2 class="text-2xl font-bold text-green-400 border-b-2 border-green-700 pb-2 mb-6">開発物の例</h2><div class="grid grid-cols-1 md:grid-cols-2 gap-6"><div class="bg-gray-800 p-5 rounded-lg border border-gray-700 hover:border-green-600 hover:scale-105 transition-all"><h3 class="font-bold text-lg text-green-300">MEG脳波分類モデル</h3><p class="mt-2 text-sm text-gray-400">被験者が見ている画像のクラスを脳波から分類。CLIPのファインチューニングにより実現。</p><a href="https://github.com/K0909github/dl_lecture_competition_pub/tree/MEG-competition" target="_blank" rel="noopener noreferrer" class="inline-flex items-center mt-4 text-sm font-medium text-green-400 hover:text-green-300">GitHubで見る <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg></a></div><div class="bg-gray-800 p-5 rounded-lg border border-gray-700 hover:border-green-600 hover:scale-105 transition-all"><h3 class="font-bold text-lg text-green-300">Slack質問集約Bot</h3><p class="mt-2 text-sm text-gray-400">AWS (Bedrock, EventBridge) とSlack APIを利用し、多かった質問を24時間おきにメール通知。</p><a href="https://github.com/K0909github/cdk-slack-analyzer" target="_blank" rel="noopener noreferrer" class="inline-flex items-center mt-4 text-sm font-medium text-green-400 hover:text-green-300">GitHubで見る <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg></a></div><div class="bg-gray-800 p-5 rounded-lg border border-gray-700 hover:border-green-600 hover:scale-105 transition-all"><h3 class="font-bold text-lg text-green-300">Fashion Item Classifier</h3><p class="mt-2 text-sm text-gray-400">カメラ画像の服や靴の種類を判別するStreamlitアプリ。訓練済みモデルを利用して構築。</p><a href="https://github.com/K0909github/fashion_item_clssifier" target="_blank" rel="noopener noreferrer" class="inline-flex items-center mt-4 text-sm font-medium text-green-400 hover:text-green-300">GitHubで見る <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg></a></div><div class="bg-gray-800 p-5 rounded-lg border border-gray-700 hover:border-green-600 hover:scale-105 transition-all"><h3 class="font-bold text-lg text-green-300">日本語LLMファインチューニング</h3><p class="mt-2 text-sm text-gray-400">`llm-jp-13b`モデルを`ichikara-instruction`データセットでファインチューニング。</p><a href="https://huggingface.co/K0909/llm-jp-3-13b-it_lora" target="_blank" rel="noopener noreferrer" class="inline-flex items-center mt-4 text-sm font-medium text-green-400 hover:text-green-300">Hugging Faceで見る <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg></a></div><div class="bg-gray-800 p-5 rounded-lg border border-gray-700 hover:border-green-600 hover:scale-105 transition-all"><h3 class="font-bold text-lg text-green-300">ポートフォリオサイト</h3><p class="mt-2 text-sm text-gray-400">このウェブサイト自体も開発物の一つです。HTML, Tailwind CSS, JavaScriptで構築しています。</p><a href="https://startling-duckanoo-ddee83.netlify.app/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center mt-4 text-sm font-medium text-green-400 hover:text-green-300">サイトを見る <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg></a></div></div></section>
+                    
+                    <section class="mt-10 fade-in-up"><h2 class="text-2xl font-bold text-green-400 border-b-2 border-green-700 pb-2 mb-4">資格</h2><div class="grid grid-cols-1 sm:grid-cols-2 gap-4"><div class="bg-gray-800 p-3 rounded-lg flex justify-between items-center"><span>基本情報技術者</span><button class="certificate-btn text-sm font-medium text-green-400 hover:text-green-300" data-src="https://startling-duckanoo-ddee83.netlify.app/information.png"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" /></svg> 証明書を表示</button></div><div class="bg-gray-800 p-3 rounded-lg flex justify-between items-center"><span>G検定</span><button class="certificate-btn text-sm font-medium text-green-400 hover:text-green-300" data-src="https://startling-duckanoo-ddee83.netlify.app/G.png"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" /></svg> 証明書を表示</button></div><div class="bg-gray-800 p-3 rounded-lg flex justify-between items-center"><span>E資格</span><button class="certificate-btn text-sm font-medium text-green-400 hover:text-green-300" data-src="https://startling-duckanoo-ddee83.netlify.app/E.png"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" /></svg> 証明書を表示</button></div><div class="bg-gray-800 p-3 rounded-lg flex justify-between items-center"><span>統計検定2級</span><button class="certificate-btn text-sm font-medium text-green-400 hover:text-green-300" data-src="https://startling-duckanoo-ddee83.netlify.app/statistics.png"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" /></svg> 証明書を表示</button></div></div><div class="flex flex-wrap gap-3 mt-4"><a href="https://atcoder.jp/users/K0909" target="_blank" rel="noopener noreferrer" class="bg-gray-700 text-yellow-300 text-sm font-medium px-4 py-2 rounded-full hover:bg-gray-600 transition-colors">競プロ (AtCoder 茶)</a><a href="https://www.kaggle.com/k0909kaggle" target="_blank" rel="noopener noreferrer" class="bg-gray-700 text-blue-300 text-sm font-medium px-4 py-2 rounded-full hover:bg-gray-600 transition-colors">Kaggle Contributer</a></div></section>
+
+                    <section class="mt-10 fade-in-up"><h2 class="text-2xl font-bold text-green-400 border-b-2 border-green-700 pb-2 mb-6">スキル</h2><div class="space-y-4"><div class="skill-card bg-gray-800 p-5 rounded-lg border border-gray-700"><h3 class="font-bold text-lg text-green-300">Python</h3><p class="mt-2 text-sm text-gray-400">研究開発、機械学習の主要言語</p></div><div class="skill-card bg-gray-800 p-5 rounded-lg border border-gray-700"><h3 class="font-bold text-lg text-green-300">機械学習</h3><p class="mt-2 text-sm text-gray-400"></p></div><div class="skill-card bg-gray-800 p-5 rounded-lg border border-gray-700"><h3 class="font-bold text-lg text-green-300">深層学習</h3><p class="mt-2 text-sm text-gray-400">事前学習済みモデルを用いたfinetuningやハイパーパラメータチューニング</p></div><div class="skill-card bg-gray-800 p-5 rounded-lg border border-gray-700"><h3 class="font-bold text-lg text-green-300">脳波分析</h3><p class="mt-2 text-sm text-gray-400">EEG、MEGを主なデータソースとして扱います。</p></div><div class="skill-card bg-gray-800 p-5 rounded-lg border border-gray-700"><h3 class="font-bold text-lg text-green-300">LLM</h3><p class="mt-2 text-sm text-gray-400">大規模言語モデルのファインチューニングや松尾研チーム開発。</p></div><div class="skill-card bg-gray-800 p-5 rounded-lg border border-gray-700"><h3 class="font-bold text-lg text-green-300">ロボット</h3><p class="mt-2 text-sm text-gray-400">ROS2、Dockerを用いたシミュレーション経験。</p></div><div class="skill-card bg-gray-800 p-5 rounded-lg border border-gray-700"><h3 class="font-bold text-lg text-green-300">世界モデル</h3><p class="mt-2 text-sm text-gray-400">エージェントが環境を内的モデルとして学習・予測する世界モデルの研究開発。自律的な意思決定システムの構築を目指します。</p></div><div class="skill-card bg-gray-800 p-5 rounded-lg border border-gray-700"><h3 class="font-bold text-lg text-green-300">量子コンピューティング</h3><p class="mt-2 text-sm text-gray-400">量子アルゴリズム、量子機械学習の基礎理論と、ダイヤモンドNVセンターなどを用いた物理実装に関するシミュレーションと研究。</p></div></div></section>
+
+                    <section class="mt-10 fade-in-up"><h2 class="text-2xl font-bold text-green-400 border-b-2 border-green-700 pb-2 mb-4">実績</h2><div class="space-y-4"><div class="bg-gray-800 p-4 rounded-lg"><h4 class="font-semibold text-green-300">世界モデル</h4><p class="text-sm text-gray-500">東京大学 松尾研究室</p><p class="mt-2 text-sm text-gray-400">自律エージェントが環境の動態を予測し、効率的な行動計画を立てるための世界モデルの構築。シミュレーション環境での強化学習タスクを通じて、その有効性を検証しました。</p><button class="certificate-btn mt-2 text-sm font-medium text-green-400 hover:text-green-300" data-src="https://startling-duckanoo-ddee83.netlify.app/worldmodel.png"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" /></svg> 証明書を表示</button></div><div class="bg-gray-800 p-4 rounded-lg"><h4 class="font-semibold text-green-300">大規模言語モデル</h4><p class="text-sm text-gray-500">東京大学 松尾研究室</p><p class="mt-2 text-sm text-gray-400">LLMの基本原理（事前学習からRLHFまで）を学び、スケーリング則や安全対策などのコア技術を習得。APIを用いた実践的なアプリケーション開発を行いました。</p><button class="certificate-btn mt-2 text-sm font-medium text-green-400 hover:text-green-300" data-src="https://startling-duckanoo-ddee83.netlify.app/llm.png"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" /></svg> 証明書を表示</button></div><div class="bg-gray-800 p-4 rounded-lg"><h4 class="font-semibold text-green-300">深層強化学習</h4><p class="text-sm text-gray-500">東京大学 松尾研究室</p><p class="mt-2 text-sm text-gray-400">価値ベースの手法（DQN）から方策勾配法（REINFORCE, A2C）、さらにはPPOまで、主要な深層強化学習アルゴリズムを実装し、その理論的背景を学びました。</p><button class="certificate-btn mt-2 text-sm font-medium text-green-400 hover:text-green-300" data-src="https://startling-duckanoo-ddee83.netlify.app/RL.png"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" /></svg> 証明書を表示</button></div><div class="bg-gray-800 p-4 rounded-lg"><h4 class="font-semibold text-green-300">深層生成モデル</h4><p class="text-sm text-gray-500">東京大学 松尾研究室</p><p class="mt-2 text-sm text-gray-400">VAE、GAN、Flow-basedモデル、拡散モデルなど、主要な深層生成モデルの理論を学び、高品質なデータ生成のための技術を実践的に習得しました。</p><button class="certificate-btn mt-2 text-sm font-medium text-green-400 hover:text-green-300" data-src="https://startling-duckanoo-ddee83.netlify.app/generate.png"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" /></svg> 証明書を表示</button></div><div class="bg-gray-800 p-4 rounded-lg"><h4 class="font-semibold text-green-300">金融市場取引と機械学習</h4><p class="text-sm text-gray-500">東京大学 松尾研究室</p><p class="mt-2 text-sm text-gray-400">金融データ特有の性質を理解し、時系列解析や機械学習モデルを応用した市場予測・取引戦略の構築手法について学びました。</p><button class="certificate-btn mt-2 text-sm font-medium text-green-400 hover:text-green-300" data-src="https://startling-duckanoo-ddee83.netlify.app/money.png"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" /></svg> 証明書を表示</button></div><div class="bg-gray-800 p-4 rounded-lg"><h4 class="font-semibold text-green-300">深層学習基礎</h4><p class="text-sm text-gray-500">東京大学 松尾研究室</p><p class="mt-2 text-sm text-gray-400">ニューラルネットワークの数学的基礎から、CNNやRNNなどの基本的なモデル構造、最適化手法まで、深層学習の根幹をなす知識を体系的に学習しました。</p><button class="certificate-btn mt-2 text-sm font-medium text-green-400 hover:text-green-300" data-src="https://startling-duckanoo-ddee83.netlify.app/dl.png"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" /></svg> 証明書を表示</button></div><div class="bg-gray-800 p-4 rounded-lg"><h4 class="font-semibold text-green-300">Global Consumer Intelligence</h4><p class="text-sm text-gray-500">東京大学 松尾研究室</p><p class="mt-2 text-sm text-gray-400">消費者行動データや市場データを分析し、ビジネス課題を解決するためのデータ駆動型インテリジェンスの獲得手法を学びました。</p><button class="certificate-btn mt-2 text-sm font-medium text-green-400 hover:text-green-300" data-src="https://startling-duckanoo-ddee83.netlify.app/gci.png"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" /></svg> 証明書を表示</button></div><div class="bg-gray-800 p-4 rounded-lg"><h4 class="font-semibold text-green-300">量子ソフトウェア勉強会</h4><p class="text-sm text-gray-500">大阪大学</p><p class="mt-2 text-sm text-gray-400">量子コンピュータのプログラミングに必要な基礎知識と、主要な量子アルゴリズム（Shorのアルゴリズム, Groverのアルゴリズム等）について学びました。</p><button class="certificate-btn mt-2 text-sm font-medium text-green-400 hover:text-green-300" data-src="https://startling-duckanoo-ddee83.netlify.app/quantum.png"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" /></svg> 証明書を表示</button></div><div class="bg-gray-800 p-4 rounded-lg"><h4 class="font-semibold text-green-300">計算行動神経科学スプリングセミナー</h4><p class="text-sm text-gray-500">奈良先端科学技術大学院大学</p><p class="mt-2 text-sm text-gray-400">脳の計算論的モデルと、実際の神経活動データや行動データを結びつけるためのアプローチについて、講義と実践を通じて学びました。</p><button class="certificate-btn mt-2 text-sm font-medium text-green-400 hover:text-green-300" data-src="https://startling-duckanoo-ddee83.netlify.app/naist.png"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" /></svg> 証明書を表示</button></div></div></section>
+                    
+                    <section class="mt-10 fade-in-up"><h2 class="text-2xl font-bold text-green-400 border-b-2 border-green-700 pb-2 mb-4">趣味</h2><div class="flex flex-wrap gap-3"><span class="bg-green-900 text-green-300 text-sm font-medium px-4 py-2 rounded-full">研究</span><span class="bg-green-900 text-green-300 text-sm font-medium px-4 py-2 rounded-full">開発</span><span class="bg-green-900 text-green-300 text-sm font-medium px-4 py-2 rounded-full">プログラミング</span><span class="bg-green-900 text-green-300 text-sm font-medium px-4 py-2 rounded-full">アニメ</span><span class="bg-green-900 text-green-300 text-sm font-medium px-4 py-2 rounded-full">ゲーム</span></div></section>
+                </main>
             </div>
         </div>
     </div>
@@ -143,26 +89,19 @@
     <script>
         window.addEventListener('load', () => {
             const splash = document.getElementById('splash-screen');
-            setTimeout(() => {
-                splash.classList.add('fade-out');
-            }, 4500);
-            splash.addEventListener('transitionend', () => {
-                splash.style.display = 'none';
-            });
+            setTimeout(() => { splash.classList.add('fade-out'); }, 4500);
+            splash.addEventListener('transitionend', () => { splash.style.display = 'none'; });
         });
 
         const canvas = document.getElementById('matrix-canvas');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-        // マトリックスの文字を '0' と '1' に変更
         const characters = '01';
         const fontSize = 16;
         const columns = Math.floor(canvas.width / fontSize);
         const drops = [];
-        for (let x = 0; x < columns; x++) {
-            drops[x] = 1;
-        }
+        for (let x = 0; x < columns; x++) { drops[x] = 1; }
         function drawMatrix() {
             ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -172,12 +111,10 @@
                 const text = characters.charAt(Math.floor(Math.random() * characters.length));
                 ctx.fillText(text, i * fontSize, drops[i] * fontSize);
                 drops[i]++;
-                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                    drops[i] = 0;
-                }
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) { drops[i] = 0; }
             }
         }
-        const matrixInterval = setInterval(drawMatrix, 33);
+        setInterval(drawMatrix, 33);
 
         document.addEventListener('DOMContentLoaded', () => {
             const targets = document.querySelectorAll('.fade-in-up');
@@ -191,6 +128,30 @@
                 });
             }, { root: scrollWrapper, rootMargin: '0px', threshold: 0.1 });
             targets.forEach(target => { observer.observe(target); });
+
+            const modal = document.getElementById('certificate-modal');
+            const modalImg = document.getElementById('certificate-image');
+            const certificateBtns = document.querySelectorAll('.certificate-btn');
+
+            certificateBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const imgSrc = btn.dataset.src;
+                    if (imgSrc) {
+                        modalImg.src = imgSrc;
+                        modal.style.display = 'flex';
+                    } else {
+                        console.log('証明書のURLが設定されていません。');
+                    }
+                });
+            });
+
+            modal.addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+            modalImg.addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
         });
 
         window.addEventListener('resize', () => {
@@ -200,4 +161,3 @@
     </script>
 </body>
 </html>
-
