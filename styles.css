@@ -1,0 +1,234 @@
+body {
+    font-family: 'Inter', 'Noto Sans JP', sans-serif;
+    overflow: hidden;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* --- オープニング演出用のスタイル --- */
+#splash-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    transition: opacity 1.5s ease-out, visibility 1.5s ease-out;
+    visibility: visible;
+    opacity: 1;
+}
+
+#splash-screen.fade-out {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.splash-image-container {
+    position: relative;
+    width: 90%;
+    max-width: 500px;
+    animation: pulse 2.5s infinite ease-in-out;
+}
+
+.splash-image {
+    width: 100%;
+    height: auto;
+    opacity: 0;
+    animation: fade-in 1s ease-out forwards;
+}
+
+.scan-light::after {
+    content: '';
+    position: absolute;
+    top: -100%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0.1) 48%, rgba(167, 139, 250, 0.4) 50%, rgba(255,255,255,0.1) 52%, rgba(255,255,255,0) 100%);
+    animation: scan 3s linear infinite 1s;
+}
+
+.glitch-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('https://startling-duckanoo-ddee83.netlify.app/2110581.jpg');
+    background-size: cover;
+    opacity: 0;
+}
+
+.glitch-layer:nth-child(1) {
+    animation: glitch1 2s infinite 1.5s;
+}
+
+.glitch-layer:nth-child(2) {
+    animation: glitch2 2s infinite 1.5s;
+}
+
+@keyframes fade-in {
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 5px #8b5cf6);
+    }
+
+    50% {
+        transform: scale(1.03);
+        filter: drop-shadow(0 0 15px #8b5cf6);
+    }
+
+    100% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 5px #8b5cf6);
+    }
+}
+
+@keyframes scan {
+    0% {
+        top: -100%;
+    }
+
+    100% {
+        top: 100%;
+    }
+}
+
+@keyframes glitch1 {
+    0%, 2%, 4%, 20%, 22%, 100% {
+        opacity: 0;
+        transform: none;
+    }
+
+    1% {
+        opacity: 0.5;
+        transform: translate(-2px, 2px);
+    }
+
+    3% {
+        opacity: 0.5;
+        transform: translate(2px, -2px);
+    }
+
+    21% {
+        opacity: 0.5;
+        transform: translate(-2px, -2px);
+    }
+}
+
+@keyframes glitch2 {
+    0%, 2%, 4%, 20%, 22%, 100% {
+        opacity: 0;
+        transform: none;
+    }
+
+    1.5% {
+        opacity: 0.5;
+        transform: translate(2px, 2px) skewX(-10deg);
+    }
+
+    3.5% {
+        opacity: 0.5;
+        transform: translate(-2px, -2px) skewX(10deg);
+    }
+
+    21.5% {
+        opacity: 0.5;
+        transform: translate(2px, -2px) skewX(-5deg);
+    }
+}
+
+/* --- 背景とスクロールのスタイル --- */
+#matrix-canvas {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 0;
+}
+
+.scroll-wrapper {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.fade-in-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.fade-in-up.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- 証明書モーダルのスタイル --- */
+#certificate-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.85);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 200;
+    padding: 1rem;
+    cursor: pointer;
+}
+
+#certificate-modal img {
+    max-width: 95%;
+    max-height: 95%;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 40px rgba(167, 139, 250, 0.6);
+    cursor: default;
+}
+
+.cert-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(17,24,39,0.6);
+    border: 1px solid rgba(167,139,250,0.4);
+    color: #a78bfa;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    user-select: none;
+}
+
+.cert-nav:hover {
+    background: rgba(167,139,250,0.25);
+}
+
+#cert-prev {
+    left: 1rem;
+}
+
+#cert-next {
+    right: 1rem;
+}
