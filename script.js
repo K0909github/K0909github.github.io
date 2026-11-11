@@ -5,14 +5,59 @@ function gtag() {
 gtag('js', new Date());
 gtag('config', 'G-WY6717KZSQ');
 
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+// タッチ端末ではホバー前提の演出（カードの傾き・カーソルのグロー）を出さない
+const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+// スプラッシュの裏で演出が終わってしまわないよう、消え始めるまで待たせる
+let splashDone = false;
+const splashCallbacks = [];
+
+function whenSplashDone(callback) {
+    if (splashDone) {
+        callback();
+    } else {
+        splashCallbacks.push(callback);
+    }
+}
+
+function markSplashDone() {
+    if (splashDone) {
+        return;
+    }
+    splashDone = true;
+    splashCallbacks.splice(0).forEach(callback => callback());
+}
+
+// カーソル位置は背景のマトリックスとグローの両方で参照する
+const pointer = { x: 0, y: 0, active: false };
+window.addEventListener('pointermove', event => {
+    pointer.x = event.clientX;
+    pointer.y = event.clientY;
+    pointer.active = true;
+}, { passive: true });
+window.addEventListener('pointerup', event => {
+    if (event.pointerType !== 'mouse') {
+        pointer.active = false;
+    }
+});
+window.addEventListener('pointercancel', () => {
+    pointer.active = false;
+});
+document.documentElement.addEventListener('mouseleave', () => {
+    pointer.active = false;
+});
+
 window.addEventListener('load', () => {
     const splash = document.getElementById('splash-screen');
     if (!splash) {
+        markSplashDone();
         return;
     }
 
     setTimeout(() => {
         splash.classList.add('fade-out');
+        markSplashDone();
     }, 4500);
 
     splash.addEventListener('transitionend', () => {
@@ -38,12 +83,16 @@ if (canvas) {
     function drawMatrix() {
         ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = '#8b5cf6';
         ctx.font = `${fontSize}px monospace`;
 
         for (let index = 0; index < drops.length; index++) {
             const text = characters.charAt(Math.floor(Math.random() * characters.length));
-            ctx.fillText(text, index * fontSize, drops[index] * fontSize);
+            const x = index * fontSize;
+            const y = drops[index] * fontSize;
+            // カーソル付近の文字だけ明るくして、背景が手の動きに反応するようにする
+            const nearPointer = pointer.active && Math.hypot(x - pointer.x, y - pointer.y) < 110;
+            ctx.fillStyle = nearPointer ? '#ede9fe' : '#8b5cf6';
+            ctx.fillText(text, x, y);
             drops[index]++;
 
             if (drops[index] * fontSize > canvas.height && Math.random() > 0.975) {
@@ -120,6 +169,256 @@ if (profileImage) {
     }
 }
 
+// 見出しを暗号文のような文字列から本来のテキストへ復号していく演出
+const SCRAMBLE_WIDE = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホ';
+const SCRAMBLE_NARROW = '01<>/=+*#%$&ABCDEFGHJKXYZ';
+const scrambleRuns = new WeakMap();
+
+function randomGlyphLike(char) {
+    // 全角は全角、半角は半角で置き換えて、演出中の文字幅のガタつきを抑える
+    const pool = char.charCodeAt(0) > 0xff ? SCRAMBLE_WIDE : SCRAMBLE_NARROW;
+    return pool.charAt(Math.floor(Math.random() * pool.length));
+}
+
+function scrambleText(el, duration = 900) {
+    if (!el || reduceMotion || scrambleRuns.has(el)) {
+        return;
+    }
+    const finalText = el.textContent;
+    const chars = Array.from(finalText);
+    const run = { cancelled: false };
+    scrambleRuns.set(el, run);
+    // 演出中もスクリーンリーダーには正しい文字列を読ませる（aria-label を付けてよいのは見出しのみ）
+    const labelable = /^H[1-6]$/.test(el.tagName);
+    if (labelable) {
+        el.setAttribute('aria-label', finalText);
+    }
+    const start = performance.now();
+    let lastDraw = 0;
+
+    function frame(now) {
+        if (run.cancelled) {
+            return;
+        }
+        const progress = Math.min((now - start) / duration, 1);
+        if (progress < 1 && now - lastDraw < 40) {
+            requestAnimationFrame(frame);
+            return;
+        }
+        lastDraw = now;
+        const revealed = Math.floor(progress * chars.length);
+        el.textContent = chars.map((char, index) => (index < revealed || char.trim() === '' ? char : randomGlyphLike(char))).join('');
+        if (progress < 1) {
+            requestAnimationFrame(frame);
+        } else {
+            el.textContent = finalText;
+            if (labelable) {
+                el.removeAttribute('aria-label');
+            }
+            scrambleRuns.delete(el);
+        }
+    }
+    requestAnimationFrame(frame);
+}
+
+// 言語切替で本文を書き換える前に呼び、演出が古い言語の文字列で上書きし返すのを防ぐ
+function cancelScramble(el) {
+    const run = scrambleRuns.get(el);
+    if (run) {
+        run.cancelled = true;
+        el.removeAttribute('aria-label');
+        scrambleRuns.delete(el);
+    }
+}
+
+function setupHeadingHover() {
+    if (!finePointer || reduceMotion) {
+        return;
+    }
+    document.querySelectorAll('main section h2, header h1').forEach(title => {
+        title.addEventListener('pointerenter', () => scrambleText(title, 600));
+    });
+}
+
+// カードがカーソルの方向へ傾き、カーソル位置にスポットライトが当たる
+function setupCardEffects() {
+    if (!finePointer || reduceMotion) {
+        return;
+    }
+    const cards = document.querySelectorAll('#projects .grid > div, #qualifications .grid > div, .skill-card, #achievements .space-y-4 > div, #materials .space-y-4 > a');
+    cards.forEach(card => {
+        card.classList.add('interactive-card');
+        let frameId = null;
+
+        card.addEventListener('pointermove', event => {
+            const rect = card.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+            if (frameId !== null) {
+                cancelAnimationFrame(frameId);
+            }
+            frameId = requestAnimationFrame(() => {
+                frameId = null;
+                // 横長のカードは大きく傾けると不自然なので、幅に応じて角度を抑える
+                const maxTilt = rect.width > 500 ? 2.5 : 7;
+                const rotateY = (x / rect.width - 0.5) * maxTilt * 2;
+                const rotateX = (0.5 - y / rect.height) * maxTilt * 2;
+                card.style.setProperty('--card-x', `${x}px`);
+                card.style.setProperty('--card-y', `${y}px`);
+                card.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+            });
+        });
+
+        card.addEventListener('pointerleave', () => {
+            if (frameId !== null) {
+                cancelAnimationFrame(frameId);
+                frameId = null;
+            }
+            card.style.transform = '';
+        });
+    });
+}
+
+// スクロール進捗バーと、ナビで現在地のセクションを示すインジケーター
+function setupScrollEffects(scrollWrapper) {
+    const nav = document.querySelector('nav');
+    if (!scrollWrapper || !nav) {
+        return;
+    }
+
+    const progressBar = document.createElement('div');
+    progressBar.id = 'scroll-progress';
+    nav.appendChild(progressBar);
+
+    const indicator = document.createElement('span');
+    indicator.id = 'nav-indicator';
+    nav.appendChild(indicator);
+
+    const navLinks = Array.from(document.querySelectorAll('#nav-links .nav-link, #mobile-menu a[href^="#"]'));
+    const sections = Array.from(new Set(navLinks.map(link => link.getAttribute('href'))))
+        .map(href => document.querySelector(href))
+        .filter(Boolean)
+        .sort((a, b) => (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1));
+    let activeId = null;
+
+    function moveIndicator() {
+        // 同じ行き先のリンクが複数ある（実績・記事）ので先頭のリンクに合わせる
+        const link = activeId ? document.querySelector(`#nav-links .nav-link[href="#${activeId}"]`) : null;
+        const rect = link ? link.getBoundingClientRect() : null;
+        if (!rect || rect.width === 0) {
+            indicator.style.opacity = '0';
+            return;
+        }
+        const navRect = nav.getBoundingClientRect();
+        // 非表示から出すときは左上から滑ってこないよう、位置だけ瞬時に合わせる
+        const wasHidden = indicator.style.opacity !== '1';
+        if (wasHidden) {
+            indicator.style.transition = 'none';
+        }
+        indicator.style.width = `${rect.width}px`;
+        indicator.style.transform = `translate(${rect.left - navRect.left}px, ${rect.bottom - navRect.top + 6}px)`;
+        if (wasHidden) {
+            indicator.getBoundingClientRect();
+            indicator.style.transition = '';
+        }
+        indicator.style.opacity = '1';
+    }
+
+    function update() {
+        const maxScroll = scrollWrapper.scrollHeight - scrollWrapper.clientHeight;
+        const progress = maxScroll > 0 ? scrollWrapper.scrollTop / maxScroll : 0;
+        progressBar.style.transform = `scaleX(${progress})`;
+
+        // 画面上端から 40% のラインを越えた最後のセクションを現在地とし、末尾の短いセクションは最下部到達で拾う
+        const line = window.innerHeight * 0.4;
+        let current = null;
+        sections.forEach(section => {
+            if (section.getBoundingClientRect().top <= line) {
+                current = section.id;
+            }
+        });
+        if (sections.length > 0 && maxScroll > 0 && scrollWrapper.scrollTop >= maxScroll - 2) {
+            current = sections[sections.length - 1].id;
+        }
+        if (current !== activeId) {
+            activeId = current;
+            navLinks.forEach(link => link.classList.toggle('is-active', link.getAttribute('href') === `#${activeId}`));
+            moveIndicator();
+        }
+    }
+
+    let ticking = false;
+    scrollWrapper.addEventListener('scroll', () => {
+        if (ticking) {
+            return;
+        }
+        ticking = true;
+        requestAnimationFrame(() => {
+            ticking = false;
+            update();
+        });
+    }, { passive: true });
+
+    // 言語切替でリンク幅が変わるので、ナビの大きさが変わったときも位置を合わせ直す
+    const navList = document.getElementById('nav-links');
+    if (navList && 'ResizeObserver' in window) {
+        new ResizeObserver(moveIndicator).observe(navList);
+    }
+    window.addEventListener('resize', moveIndicator);
+    update();
+}
+
+function setupCursorGlow() {
+    const glow = document.getElementById('cursor-glow');
+    if (!glow || !finePointer || reduceMotion) {
+        return;
+    }
+    let ticking = false;
+    window.addEventListener('pointermove', () => {
+        if (ticking) {
+            return;
+        }
+        ticking = true;
+        requestAnimationFrame(() => {
+            ticking = false;
+            glow.style.setProperty('--glow-x', `${pointer.x}px`);
+            glow.style.setProperty('--glow-y', `${pointer.y}px`);
+            glow.classList.add('is-active');
+        });
+    }, { passive: true });
+    document.documentElement.addEventListener('mouseleave', () => {
+        glow.classList.remove('is-active');
+    });
+}
+
+// クリックした位置から 0 と 1 が弾ける
+function setupClickBurst() {
+    if (reduceMotion) {
+        return;
+    }
+    const bitCount = 10;
+    window.addEventListener('click', event => {
+        // キーボード操作による click（座標を持たない）では出さない
+        if (event.detail === 0) {
+            return;
+        }
+        for (let index = 0; index < bitCount; index++) {
+            const bit = document.createElement('span');
+            bit.className = 'burst-bit';
+            bit.setAttribute('aria-hidden', 'true');
+            bit.textContent = Math.random() < 0.5 ? '0' : '1';
+            const angle = (Math.PI * 2 * index) / bitCount + Math.random() * 0.5;
+            const distance = 30 + Math.random() * 40;
+            bit.style.setProperty('--sx', `${event.clientX}px`);
+            bit.style.setProperty('--sy', `${event.clientY}px`);
+            bit.style.setProperty('--dx', `${Math.cos(angle) * distance}px`);
+            bit.style.setProperty('--dy', `${Math.sin(angle) * distance}px`);
+            bit.addEventListener('animationend', () => bit.remove());
+            document.body.appendChild(bit);
+        }
+    });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const targets = document.querySelectorAll('.fade-in-up');
     const scrollWrapper = document.querySelector('.scroll-wrapper');
@@ -128,6 +427,10 @@ document.addEventListener('DOMContentLoaded', () => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('is-visible');
+                const title = entry.target.querySelector('h2');
+                if (title) {
+                    whenSplashDone(() => scrambleText(title));
+                }
                 observerInstance.unobserve(entry.target);
             }
         });
@@ -136,6 +439,17 @@ document.addEventListener('DOMContentLoaded', () => {
     targets.forEach(target => {
         observer.observe(target);
     });
+
+    whenSplashDone(() => {
+        scrambleText(document.querySelector('header h1'), 1200);
+        setTimeout(() => scrambleText(document.querySelector('header [data-i18n="role"]')), 300);
+    });
+
+    setupHeadingHover();
+    setupCardEffects();
+    setupScrollEffects(scrollWrapper);
+    setupCursorGlow();
+    setupClickBurst();
 
     const modal = document.getElementById('certificate-modal');
     const modalImg = document.getElementById('certificate-image');
@@ -285,6 +599,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const key = el.getAttribute('data-i18n');
                 const value = chosen === 'en' ? dict.en[key] : originalText.get(el);
                 if (value != null) {
+                    cancelScramble(el);
                     el.textContent = value;
                 }
             });
