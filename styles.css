@@ -705,17 +705,26 @@ main > section > h2::before {
     text-align: right;
 }
 
-/* --- 研究テーマのタイル（脳・世界モデル・量子・AI エージェント） --- */
+/* --- 研究テーマのタイル（脳・世界モデル・量子・AI エージェント・フルダイブ） --- */
 .theme-tiles {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.75rem;
 }
 
+/* 2 列のときに奇数枚目で終わる最後のタイルは、横幅いっぱいに広げて余白を作らない */
+.theme-tile:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+}
+
 @media (min-width: 1024px) {
     .theme-tiles {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
+        grid-template-columns: repeat(5, minmax(0, 1fr));
         gap: 1rem;
+    }
+
+    .theme-tile:last-child:nth-child(odd) {
+        grid-column: auto;
     }
 }
 

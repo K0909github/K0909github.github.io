@@ -656,7 +656,7 @@ function setupBrain() {
     loop.start();
 }
 
-// --- 研究テーマのタイル：脳波・世界モデル・量子ビット・AI エージェント ---
+// --- 研究テーマのタイル：脳波・世界モデル・量子ビット・AI エージェント・フルダイブ ---
 
 function paintEeg(ctx, w, h, s) {
     ctx.clearRect(0, 0, w, h);
@@ -893,11 +893,71 @@ function paintAgents(ctx, w, h, s) {
     ctx.fill();
 }
 
+// 地平線のポータルへ向かってグリッドの上を進んでいく（脳と仮想世界をつなぐフルダイブ）
+function paintDive(ctx, w, h, s) {
+    ctx.clearRect(0, 0, w, h);
+    const horizon = h * 0.46;
+    const vx = w / 2;
+    s.travel = (s.travel || 0) + s.dt * (0.35 + s.hover * 1.4);
+
+    for (let index = 0; index < 30; index++) {
+        const x = (Math.sin(index * 91.7) * 0.5 + 0.5) * w;
+        const y = (Math.sin(index * 37.3) * 0.5 + 0.5) * horizon * 0.9;
+        ctx.fillStyle = `rgba(236, 254, 255, ${(0.25 + 0.3 * Math.sin(s.t * 2 + index)).toFixed(3)})`;
+        ctx.fillRect(x, y, 1.3, 1.3);
+    }
+
+    // 地平線に開くポータル（脳と仮想世界をつなぐ入口）
+    const radius = h * 0.2 * (1 + Math.sin(s.t * 2) * 0.06 + s.hover * 0.15);
+    const glow = ctx.createRadialGradient(vx, horizon, 0, vx, horizon, radius * 1.6);
+    glow.addColorStop(0, `rgba(${CYAN}, 0.45)`);
+    glow.addColorStop(1, `rgba(${CYAN}, 0)`);
+    ctx.fillStyle = glow;
+    ctx.fillRect(0, 0, w, h);
+    ctx.strokeStyle = `rgba(${CYAN}, 0.85)`;
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.arc(vx, horizon, radius, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // 手前へ流れてくる床のグリッド
+    ctx.strokeStyle = `rgba(${VIOLET}, 0.55)`;
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    for (let index = -8; index <= 8; index++) {
+        ctx.moveTo(vx, horizon);
+        ctx.lineTo(vx + index * w * 0.16, h);
+    }
+    const rows = 9;
+    for (let index = 0; index < rows; index++) {
+        const depth = (index + (s.travel % 1)) / rows;
+        const y = horizon + (h - horizon) * depth * depth;
+        ctx.moveTo(0, y);
+        ctx.lineTo(w, y);
+    }
+    ctx.stroke();
+
+    // ホバー中はポータルへ吸い込まれるようなワープ線
+    if (s.hover > 0.05) {
+        ctx.strokeStyle = `rgba(${CYAN}, ${(0.55 * s.hover).toFixed(3)})`;
+        ctx.beginPath();
+        for (let index = 0; index < 24; index++) {
+            const angle = (index / 24) * Math.PI * 2 + index;
+            const near = ((s.t * 1.5 + index * 0.13) % 1) * w * 0.6;
+            const far = near + w * 0.08 * s.hover;
+            ctx.moveTo(vx + Math.cos(angle) * near, horizon + Math.sin(angle) * near * 0.7);
+            ctx.lineTo(vx + Math.cos(angle) * far, horizon + Math.sin(angle) * far * 0.7);
+        }
+        ctx.stroke();
+    }
+}
+
 const TILE_PAINTERS = {
     brain: paintEeg,
     world: paintWorldModel,
     quantum: paintQubit,
     agent: paintAgents,
+    dive: paintDive,
 };
 
 function setupThemeTiles() {
