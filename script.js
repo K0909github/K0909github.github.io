@@ -48,7 +48,7 @@ document.documentElement.addEventListener('mouseleave', () => {
     pointer.active = false;
 });
 
-// 起動演出：脳との同期ログを流し、100% で中心へダイブしてページを表示する。
+// 起動演出：脳との同期ログを流し、100% で中心へ吸い込まれるようにページを表示する。
 // 毎回だと煩わしいので同じセッション内の 2 回目以降と、動きを減らす設定では出さない
 const BOOT_LINES = [
     '> NEURAL INTERFACE :: boot',
@@ -57,7 +57,7 @@ const BOOT_LINES = [
     '> world model :: latent dynamics .. LOADED',
     '> quantum co-processor ............ ONLINE',
     '> sensory sync .................... 100%',
-    '> DIVE',
+    '> LINK ESTABLISHED :: human <-> AI',
 ];
 
 function runBootSequence() {
@@ -89,14 +89,14 @@ function runBootSequence() {
     }, (index * duration) / BOOT_LINES.length));
     let finished = false;
 
-    function dive() {
+    function enterSite() {
         if (finished) {
             return;
         }
         finished = true;
         timers.forEach(clearTimeout);
         percent.textContent = '100';
-        boot.classList.add('is-diving');
+        boot.classList.add('is-entering');
         document.body.classList.add('is-arriving');
         markSplashDone();
         setTimeout(() => {
@@ -114,12 +114,12 @@ function runBootSequence() {
         if (progress < 1) {
             requestAnimationFrame(tick);
         } else {
-            dive();
+            enterSite();
         }
     }
 
-    boot.addEventListener('click', dive);
-    window.addEventListener('keydown', dive, { once: true });
+    boot.addEventListener('click', enterSite);
+    window.addEventListener('keydown', enterSite, { once: true });
     requestAnimationFrame(tick);
 }
 
@@ -509,7 +509,7 @@ document.addEventListener('DOMContentLoaded', () => {
             navHome: 'Home', navVision: 'Vision', navActivities: 'Activities', navProjects: 'Projects', navAchievements: 'Achievements', navArticles: 'Articles',
             home: 'Home', activities: 'Activities', projects: 'Projects', achievements: 'Achievements', qualifications: 'Qualifications', skills: 'Skills', materials: 'Materials', hobbies: 'Hobbies',
             name: 'Kazuyuki Yoshikawa', role: 'AI Engineer & Researcher',
-            specialtyLine: 'Specialty: World Models × the Brain (BMI / EEG analysis)', heroTagline: 'Building full-dive worlds through the brain × world models.', brainHint: 'Drag to rotate / click to stimulate',experienceLine: 'Main R&D Experience: AI, Robotics, Brain-Machine Interface, Quantum Computing', interestLine: 'Interest: Artificial Consciousness',
+            specialtyLine: 'Specialty: Artificial Intelligence × Neuroscience', heroTagline: 'From research on the brain and AI, building a society where humans and AI coexist.',brainHint: 'Drag to rotate / click to stimulate',experienceLine: 'Main R&D Experience: AI, Robotics, Brain-Machine Interface, Quantum Computing', interestLine: 'Interest: Artificial Consciousness',
             activitiesTitle: 'Affiliations & Activities',
             affFastNeura: 'FastNeura', affUnseed: 'Unseed', affEpicAi: 'EpicAI',affRakutenMobile: 'Rakuten Mobile', affNttEast: 'NTT East', affDocomo: 'NTT Docomo', affM3: 'M3, Inc.', affMatsuoLlmatch: 'Matsuo Lab (UTokyo) LLMATCH', affMatsuoComp2025: 'Matsuo Lab LLM Competition 2025', affOsakaUniv: 'Osaka University', affNaist: 'NAIST', affHyogoDept: 'University of Hyogo Dept. EE & Info Engineering', affHyogoGradLab: 'University of Hyogo Graduate School Bio-Information Analysis Lab',
             roleFastNeura: 'AI Engineer & Researcher (Contract)', roleUnseed: 'Engineer (Contract)', roleEpicAi: 'AI Engineer (Contract)',roleRakutenIntern: 'Applied AI Research Engineer Intern', roleNttEastIntern: 'AI Engineer Intern', roleDocomoIntern: 'Hackathon Intern (Best Technology Award)', roleM3Intern: 'Data Scientist Intern', worldModelResearcher: 'World Model Researcher (1st & 2nd Cohort)', llmCompWinnerDev: 'Winner Team Developer Certification', quantumWorkshopGraduate: 'Quantum Software Study Group Graduate', compBehaviorNeuroSeminarGraduate: 'Computational Behavioral Neuroscience Spring Seminar Graduate', quantumResearch: 'Quantum Computing Research', eegResearch: 'EEG Analysis Research',
@@ -517,13 +517,13 @@ document.addEventListener('DOMContentLoaded', () => {
             affMatsuoLectures: 'Matsuo-Iwasawa Lab (UTokyo) Lecture Programs', roleMatsuoLectures: 'Completed with certificates (World Models, LLMs, Deep RL, and more)',
             periodUnseed: 'Nov 2026 – Present', periodEpicAi: 'Nov 2026 – Present', periodRakuten: 'Sep 2026 (1 month)', periodDocomo: 'Sep 2026 (5 days)',periodNttEast: 'Aug 2026 (10 days)', periodM3: 'Aug 2026 (2 days)', periodFastNeura: 'Jun 2025 – Present', periodLlmatch: 'Oct 2024 – Jul 2025',
             periodHyogoGrad: 'Apr 2026 – Mar 2028 (expected)', periodHyogoDept: 'Apr 2022 – Mar 2026', periodLlmComp: '2025', periodOsakaQuantum: 'Oct 2024', periodNaist: 'Jun 2024 (2 days)', periodMatsuoLectures: 'Apr 2024 –',
-            tileBrainTitle: 'Brain', tileBrainDesc: 'Decoding neural signals with EEG & BMI', tileWorldTitle: 'World Models', tileWorldDesc: 'Learning the world inside to predict what comes next',
-            tileQuantumTitle: 'Quantum Computing', tileQuantumDesc: 'Diamond qubits & quantum algorithms', tileDiveTitle: 'Full-Dive', tileDiveDesc: 'Connecting the brain directly to virtual worlds',
-            visionTitle: 'Read the brain, predict the world, and dive into another one.', visionLead: 'All of it, to make a full-dive world like SAO real.',
-            visionStep1Title: 'Read the brain', visionStep1Desc: 'Decode perception and intention from neural signals with EEG and BMI.',
-            visionStep2Title: 'Model the world', visionStep2Desc: 'Learn internal representations of the environment with world models and predict what happens next.',
-            visionStep3Title: 'Dive into another world', visionStep3Desc: 'Connect the brain directly to virtual worlds you can enter with all five senses.',
-            visionFoundationTitle: 'Quantum Computing', visionFoundationDesc: 'A next-generation computing foundation for simulating vast worlds and brains.',
+            tileBrainTitle: 'Brain', tileBrainDesc: 'Decoding brain signals to inform AI development', tileWorldTitle: 'World Models', tileWorldDesc: 'Applying them to BMI, and asking what intelligence is',
+            tileQuantumTitle: 'Quantum Computing', tileQuantumDesc: 'Quantum computation and the quantum-brain perspective', tileAgentTitle: 'AI Agents', tileAgentDesc: 'Building AI that works alongside people with LLMs',
+            visionTitle: 'Know the brain. Question intelligence. Toward human–AI coexistence.', visionLead: 'The goal: a society where humans and AI coexist.',
+            visionStep1Title: 'Know the brain', visionStep1Desc: 'Decode neural signals with EEG and BMI. Bring insights from the brain into AI development, and in the far future, toward full-dive technology.',
+            visionStep2Title: 'Question intelligence', visionStep2Desc: 'Apply world models to BMI, while studying world models, LLMs, and AI agents to ask what intelligence is and build true AI.',
+            visionStep3Title: 'Live together', visionStep3Desc: 'Connect our understanding of the brain and AI to build a society where humans and AI coexist.',
+            visionFoundationTitle: 'Quantum Computing', visionFoundationDesc: 'As the next computing foundation, and from the perspective of quantum brain theory, which views the brain and consciousness through quantum physics.',
             projectsTitle: 'Project Examples',
             projectMegTitle: 'MEG Brain Signal Classifier', projectMegDesc: 'Classifies the image class a subject is viewing from MEG signals using fine-tuned CLIP.',
             projectSlackBotTitle: 'Slack Question Aggregator Bot', projectSlackBotDesc: 'Uses AWS (Bedrock, EventBridge) and Slack API to email frequent questions every 24h.',
@@ -535,7 +535,7 @@ document.addEventListener('DOMContentLoaded', () => {
             skillMLTitle: 'Machine Learning', skillDeepLearningTitle: 'Deep Learning', skillEEGTitle: 'EEG Analysis', skillRoboticsTitle: 'Robotics', skillBMIIntrusiveTitle: 'Invasive Brain-Machine Interface', skillWorldModelTitle: 'World Models', skillVibeCodingTitle: 'Vibe Coding (AI-Driven Development)',
             viewOnGitHub: 'View on GitHub', viewOnHuggingFace: 'View on Hugging Face', viewSite: 'View Site',
             qualificationsTitle: 'Qualifications', basicInfoExam: 'Fundamental Information Tech Engineer', gTest: 'JDLA G-Certification', eQualification: 'JDLA E-Certification', statTest2: 'Statistics Test Grade 2', atcoderLabel: 'Competitive Programming (AtCoder Brown)', kaggleContributor: 'Kaggle Contributor',
-            skillsTitle: 'Skills', skillPythonDesc: 'Primary language for research and machine learning.', skillMLDesc: 'Use pandas, scikit-learn, and matplotlib libraries.', skillDeepLearningDesc: 'Use PyTorch, perform fine-tuning and hyperparameter optimization of pretrained models.', skillEEGDesc: 'Work mainly with EEG and MEG data sources.', skillLLMDesc: 'Experience in fine-tuning large language models, quantization, and efficient LoRA-based adaptation.', skillRoboticsDesc: 'Simulation with ROS2 & Docker; Vision/OCR development (preprocessing, detection, recognition).', skillBMIIntrusiveDesc: 'AI algorithm development with ECoG (preprocessing, feature extraction, classification/regression).', skillWorldModelDesc: 'Research on world models enabling agents to learn internal environment dynamics for autonomous decisions.', skillVibeCodingDesc: 'Agentic development with Claude Code and GitHub Copilot — pairing with AI across design, implementation, and refactoring to shorten the development cycle.',
+            skillsTitle: 'Skills', skillPythonDesc: 'Primary language for research and machine learning.', skillMLDesc: 'Use pandas, scikit-learn, and matplotlib libraries.', skillDeepLearningDesc: 'Use PyTorch, perform fine-tuning and hyperparameter optimization of pretrained models.', skillEEGDesc: 'Work mainly with EEG and MEG data, with signal processing experience in MATLAB.', skillLLMDesc: 'Experience in fine-tuning large language models, quantization, and efficient LoRA-based adaptation.', skillAIAgentTitle: 'AI Agents', skillAIAgentDesc: 'Team development of AI agents using Microsoft Foundry. Continuously studying LLMs and AI agents.', skillRoboticsDesc: 'Simulation with ROS2 & Docker; Vision/OCR development (preprocessing, detection, recognition).', skillBMIIntrusiveDesc: 'AI algorithm development with ECoG (preprocessing, feature extraction, classification/regression).', skillWorldModelDesc: 'Research on world models enabling agents to learn internal environment dynamics for autonomous decisions.', skillVibeCodingDesc: 'Agentic development with Claude Code, Codex, and GitHub Copilot —pairing with AI across design, implementation, and refactoring to shorten the development cycle.',
             achievementsTitle: 'Achievements',
             achJsai2026Title: 'Long-Horizon PPG-to-ECG Generation with Physiological Constraints', achJsai2026Org: 'JSAI2026 (40th Annual Conference of JSAI) / FastNeura', achJsai2026Desc: 'Conference presentation on a deep learning model that generates ECG from pulse waves, extended to long-duration signals and constrained by physiological priors.', viewPresentation: 'View Presentation',
             achBlaArticleTitle: 'From VLA to "BLA": EEG Foundation Models Spanning Robot Control to Sensory Augmentation', achBlaArticleOrg: 'FastNeura Official note', achBlaArticleDesc: 'Authored article surveying EEG foundation models and proposing a Biosignal-Language-Action (BLA) framework unifying perception, planning, and action.',

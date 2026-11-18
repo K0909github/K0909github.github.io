@@ -656,7 +656,7 @@ function setupBrain() {
     loop.start();
 }
 
-// --- 研究テーマのタイル：脳波・世界モデル・量子ビット・フルダイブ ---
+// --- 研究テーマのタイル：脳波・世界モデル・量子ビット・AI エージェント ---
 
 function paintEeg(ctx, w, h, s) {
     ctx.clearRect(0, 0, w, h);
@@ -818,69 +818,86 @@ function paintQubit(ctx, w, h, s) {
     ctx.fill();
 }
 
-function paintDive(ctx, w, h, s) {
+// 中央の人と、周りを回る AI エージェントが双方向にメッセージをやり取りする（人と AI の協働）
+function paintAgents(ctx, w, h, s) {
     ctx.clearRect(0, 0, w, h);
-    const horizon = h * 0.46;
-    const vx = w / 2;
-    s.travel = (s.travel || 0) + s.dt * (0.35 + s.hover * 1.4);
+    const cx = w * 0.5;
+    const cy = h * 0.4;
+    const radiusX = Math.min(w * 0.36, h * 0.62);
+    const radiusY = h * 0.26;
+    const agentCount = 5;
+    s.orbit = (s.orbit || 0) + s.dt * (0.3 + s.hover * 0.5);
 
-    for (let index = 0; index < 30; index++) {
-        const x = (Math.sin(index * 91.7) * 0.5 + 0.5) * w;
-        const y = (Math.sin(index * 37.3) * 0.5 + 0.5) * horizon * 0.9;
-        ctx.fillStyle = `rgba(236, 254, 255, ${(0.25 + 0.3 * Math.sin(s.t * 2 + index)).toFixed(3)})`;
-        ctx.fillRect(x, y, 1.3, 1.3);
+    const agents = [];
+    for (let index = 0; index < agentCount; index++) {
+        const angle = s.orbit + (index / agentCount) * Math.PI * 2;
+        agents.push({ x: cx + Math.cos(angle) * radiusX, y: cy + Math.sin(angle) * radiusY });
     }
 
-    // 地平線に開くポータル（脳と仮想世界をつなぐ入口）
-    const radius = h * 0.2 * (1 + Math.sin(s.t * 2) * 0.06 + s.hover * 0.15);
-    const glow = ctx.createRadialGradient(vx, horizon, 0, vx, horizon, radius * 1.6);
-    glow.addColorStop(0, `rgba(${CYAN}, 0.45)`);
-    glow.addColorStop(1, `rgba(${CYAN}, 0)`);
-    ctx.fillStyle = glow;
-    ctx.fillRect(0, 0, w, h);
-    ctx.strokeStyle = `rgba(${CYAN}, 0.85)`;
-    ctx.lineWidth = 1.5;
-    ctx.beginPath();
-    ctx.arc(vx, horizon, radius, 0, Math.PI * 2);
-    ctx.stroke();
-
-    // 手前へ流れてくる床のグリッド
-    ctx.strokeStyle = `rgba(${VIOLET}, 0.55)`;
     ctx.lineWidth = 1;
+    ctx.strokeStyle = `rgba(${VIOLET}, 0.35)`;
     ctx.beginPath();
-    for (let index = -8; index <= 8; index++) {
-        ctx.moveTo(vx, horizon);
-        ctx.lineTo(vx + index * w * 0.16, h);
-    }
-    const rows = 9;
-    for (let index = 0; index < rows; index++) {
-        const depth = (index + (s.travel % 1)) / rows;
-        const y = horizon + (h - horizon) * depth * depth;
-        ctx.moveTo(0, y);
-        ctx.lineTo(w, y);
-    }
+    agents.forEach(agent => {
+        ctx.moveTo(cx, cy);
+        ctx.lineTo(agent.x, agent.y);
+    });
     ctx.stroke();
 
-    // ホバー中はポータルへ吸い込まれるようなワープ線
+    // ホバー中はエージェントどうしもつながり、協調して動く
     if (s.hover > 0.05) {
-        ctx.strokeStyle = `rgba(${CYAN}, ${(0.55 * s.hover).toFixed(3)})`;
+        ctx.strokeStyle = `rgba(${CYAN}, ${(0.4 * s.hover).toFixed(3)})`;
         ctx.beginPath();
-        for (let index = 0; index < 24; index++) {
-            const angle = (index / 24) * Math.PI * 2 + index;
-            const near = ((s.t * 1.5 + index * 0.13) % 1) * w * 0.6;
-            const far = near + w * 0.08 * s.hover;
-            ctx.moveTo(vx + Math.cos(angle) * near, horizon + Math.sin(angle) * near * 0.7);
-            ctx.lineTo(vx + Math.cos(angle) * far, horizon + Math.sin(angle) * far * 0.7);
-        }
+        agents.forEach((agent, index) => {
+            const next = agents[(index + 1) % agentCount];
+            ctx.moveTo(agent.x, agent.y);
+            ctx.lineTo(next.x, next.y);
+        });
         ctx.stroke();
     }
+
+    // 人 → AI（紫）と AI → 人（水色）のメッセージが行き交う
+    const flow = s.t * (0.7 + s.hover * 0.9);
+    agents.forEach((agent, index) => {
+        const outbound = (flow + index * 0.37) % 1;
+        const inbound = (flow + index * 0.37 + 0.5) % 1;
+        ctx.fillStyle = `rgba(${VIOLET}, 0.95)`;
+        ctx.beginPath();
+        ctx.arc(cx + (agent.x - cx) * outbound, cy + (agent.y - cy) * outbound, 2, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = `rgba(${CYAN}, 0.95)`;
+        ctx.beginPath();
+        ctx.arc(agent.x + (cx - agent.x) * inbound, agent.y + (cy - agent.y) * inbound, 2, 0, Math.PI * 2);
+        ctx.fill();
+    });
+
+    // AI エージェントは四角いチップ、人は丸い頭と肩のシルエットで描き分ける
+    agents.forEach(agent => {
+        ctx.fillStyle = `rgba(${CYAN}, 0.18)`;
+        ctx.fillRect(agent.x - 8, agent.y - 8, 16, 16);
+        ctx.strokeStyle = `rgba(${CYAN}, 0.9)`;
+        ctx.strokeRect(agent.x - 6, agent.y - 6, 12, 12);
+        ctx.fillStyle = '#ecfeff';
+        ctx.fillRect(agent.x - 1.5, agent.y - 1.5, 3, 3);
+    });
+
+    ctx.strokeStyle = `rgba(${VIOLET}, 0.6)`;
+    ctx.beginPath();
+    ctx.arc(cx, cy, 13 + Math.sin(s.t * 2) * 1.5 + s.hover * 3, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.fillStyle = '#ede9fe';
+    ctx.beginPath();
+    ctx.arc(cx, cy - 3.5, 3.2, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(cx, cy + 6.5, 6, Math.PI, Math.PI * 2);
+    ctx.fill();
 }
 
 const TILE_PAINTERS = {
     brain: paintEeg,
     world: paintWorldModel,
     quantum: paintQubit,
-    dive: paintDive,
+    agent: paintAgents,
 };
 
 function setupThemeTiles() {

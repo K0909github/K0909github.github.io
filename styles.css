@@ -7,7 +7,7 @@ html {
     scroll-behavior: smooth;
 }
 
-/* --- 起動演出：ニューラルリンクの同期からフルダイブへ --- */
+/* --- 起動演出：ニューラルリンクの同期からページへ --- */
 #boot-screen {
     position: fixed;
     inset: 0;
@@ -113,13 +113,13 @@ html {
 }
 
 /* 同期が終わると中心へ吸い込まれるように拡大して消え、ページが手前に現れる */
-#boot-screen.is-diving {
+#boot-screen.is-entering {
     pointer-events: none;
     animation: boot-out 0.9s cubic-bezier(0.7, 0, 0.3, 1) forwards;
 }
 
-#boot-screen.is-diving .boot-core {
-    animation: boot-dive 0.9s cubic-bezier(0.7, 0, 0.3, 1) forwards;
+#boot-screen.is-entering .boot-core {
+    animation: boot-zoom 0.9s cubic-bezier(0.7, 0, 0.3, 1) forwards;
 }
 
 body.is-arriving .scroll-wrapper {
@@ -133,7 +133,7 @@ body.is-arriving .scroll-wrapper {
     }
 }
 
-@keyframes boot-dive {
+@keyframes boot-zoom {
     to {
         transform: scale(9);
         opacity: 0;
@@ -705,7 +705,7 @@ main > section > h2::before {
     text-align: right;
 }
 
-/* --- 研究テーマのタイル（脳・世界モデル・量子・フルダイブ） --- */
+/* --- 研究テーマのタイル（脳・世界モデル・量子・AI エージェント） --- */
 .theme-tiles {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -823,7 +823,7 @@ main > section > h2::before {
     }
 }
 
-/* --- ビジョン：脳を読む → 世界をモデル化する → フルダイブ --- */
+/* --- ビジョン：脳を知る → 知能を問う → 人と AI の共生 --- */
 .vision {
     padding: 4rem 0 5rem;
 }
