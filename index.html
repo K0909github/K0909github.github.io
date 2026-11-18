@@ -4,20 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>吉川 和之 (Kazuyuki Yoshikawa) - AI Engineer & Researcher</title>
-    <meta name="description" content="吉川和之（Kazuyuki Yoshikawa）の自己紹介ページ。AIエンジニア・研究者。専門は人工知能×脳神経科学。所属・活動経験、開発物、実績、資格、発表資料を掲載しています。">
+    <meta name="description" content="吉川和之（Kazuyuki Yoshikawa）の自己紹介ページ。AIエンジニア・研究者。専門は世界モデル×脳（BMI・脳波解析）。フルダイブ型の仮想世界の実現を目指しています。所属・活動経験、開発物、実績、資格、発表資料を掲載しています。">
     <link rel="canonical" href="https://k0909github.github.io/">
     <meta name="google-site-verification" content="6L7QfGZfY4rE1SN71VBw_pYrCcGFIKSHYiJOZsz3cy4">
     <meta property="og:type" content="profile">
     <meta property="og:title" content="吉川 和之 (Kazuyuki Yoshikawa) - AI Engineer & Researcher">
-    <meta property="og:description" content="吉川和之（Kazuyuki Yoshikawa）の自己紹介ページ。AIエンジニア・研究者。専門は人工知能×脳神経科学。">
+    <meta property="og:description" content="吉川和之（Kazuyuki Yoshikawa）の自己紹介ページ。AIエンジニア・研究者。専門は世界モデル×脳。フルダイブ型の仮想世界の実現を目指しています。">
     <meta property="og:url" content="https://k0909github.github.io/">
     <meta property="og:image" content="https://k0909github.github.io/images/main.jpg">
     <script type="application/ld+json">
-    {"@context": "https://schema.org", "@type": "Person", "name": "吉川 和之", "alternateName": ["吉川和之", "Kazuyuki Yoshikawa"], "url": "https://k0909github.github.io/", "image": "https://k0909github.github.io/images/main.jpg", "jobTitle": "AI Engineer & Researcher", "sameAs": ["https://github.com/K0909github", "https://www.linkedin.com/in/kazuyuki-yoshikawa-35a3ab33a/"]}
+    {"@context": "https://schema.org", "@type": "Person", "name": "吉川 和之", "alternateName": ["吉川和之", "Kazuyuki Yoshikawa"], "url": "https://k0909github.github.io/", "image": "https://k0909github.github.io/images/main.jpg", "jobTitle": "AI Engineer & Researcher", "knowsAbout": ["World Models", "Brain-Machine Interface", "EEG Analysis", "Quantum Computing", "Full-Dive VR"], "sameAs": ["https://github.com/K0909github", "https://www.linkedin.com/in/kazuyuki-yoshikawa-35a3ab33a/"]}
     </script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- styles.css / script.js を変更したら ?v= の日付を更新する（ブラウザに古いファイルが残るのを防ぐ） -->
-    <link rel="stylesheet" href="./styles.css?v=20261118">
+    <!-- styles.css / script.js / visuals.js を変更したら ?v= を更新する（ブラウザに古いファイルが残るのを防ぐ） -->
+    <link rel="stylesheet" href="./styles.css?v=20261118-2">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
@@ -26,15 +26,19 @@
 
     <svg width="0" height="0" class="hidden" aria-hidden="true" focusable="false"><symbol id="icon-external-link" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></symbol></svg>
 
-    <div id="splash-screen">
-        <div class="splash-image-container scan-light">
-            <div class="glitch-layer"></div>
-            <div class="glitch-layer"></div>
-            <img class="splash-image" src="./images/2110581.jpg" alt="AI Brain Animation">
+    <!-- 起動演出：脳と同期してページへダイブする。クリック・キー入力でスキップ -->
+    <div id="boot-screen" aria-hidden="true">
+        <div class="boot-backdrop"></div>
+        <div class="boot-core">
+            <div class="boot-rings"><span></span><span></span><span></span></div>
+            <p class="boot-percent"><span id="boot-percent">0</span><small>%</small></p>
+            <p class="boot-caption">NEURAL SYNC</p>
         </div>
+        <pre id="boot-log" class="boot-log"></pre>
+        <p class="boot-skip">CLICK / TAP TO SKIP</p>
     </div>
 
-    <canvas id="matrix-canvas"></canvas>
+    <canvas id="neural-canvas" aria-hidden="true"></canvas>
     <div id="cursor-glow" aria-hidden="true"></div>
 
     <div id="certificate-modal">
@@ -48,10 +52,11 @@
         <nav class="fixed top-0 left-0 w-full z-50 bg-gray-900/80 backdrop-blur-md border-b border-violet-700/40 shadow-lg shadow-violet-900/20">
             <div class="max-w-6xl mx-auto px-4 flex items-center justify-between h-14">
                 <a href="#top" class="text-violet-300 font-bold tracking-wide text-sm md:text-base" data-i18n="navHome">ホーム</a>
-                <button id="nav-toggle" class="md:hidden text-violet-300 focus:outline-none" aria-label="Open Menu">
+                <button id="nav-toggle" class="lg:hidden text-violet-300 focus:outline-none" aria-label="Open Menu">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
                 </button>
-                <ul id="nav-links" class="hidden md:flex space-x-6 text-sm font-medium items-center">
+                <ul id="nav-links" class="hidden lg:flex space-x-5 text-sm font-medium items-center">
+                    <li><a href="#vision" class="nav-link text-gray-300 hover:text-violet-300 transition" data-i18n="navVision">ビジョン</a></li>
                     <li><a href="#activities" class="nav-link text-gray-300 hover:text-violet-300 transition" data-i18n="navActivities">活動</a></li>
                     <li><a href="#projects" class="nav-link text-gray-300 hover:text-violet-300 transition" data-i18n="navProjects">開発</a></li>
                     <li><a href="#achievements" class="nav-link text-gray-300 hover:text-violet-300 transition" data-i18n="navAchievements">実績</a></li>
@@ -69,8 +74,9 @@
                 </ul>
             </div>
             <!-- モバイルメニュー -->
-            <div id="mobile-menu" class="md:hidden hidden px-4 pb-4">
+            <div id="mobile-menu" class="lg:hidden hidden px-4 pb-4">
                 <ul class="space-y-2 text-sm font-medium">
+                    <li><a href="#vision" class="block px-3 py-2 rounded-lg bg-gray-800/70 text-gray-200 hover:bg-violet-800/40" data-i18n="navVision">ビジョン</a></li>
                     <li><a href="#activities" class="block px-3 py-2 rounded-lg bg-gray-800/70 text-gray-200 hover:bg-violet-800/40" data-i18n="navActivities">活動</a></li>
                     <li><a href="#projects" class="block px-3 py-2 rounded-lg bg-gray-800/70 text-gray-200 hover:bg-violet-800/40" data-i18n="navProjects">開発</a></li>
                     <li><a href="#achievements" class="block px-3 py-2 rounded-lg bg-gray-800/70 text-gray-200 hover:bg-violet-800/40" data-i18n="navAchievements">実績</a></li>
@@ -88,14 +94,71 @@
                 </ul>
             </div>
         </nav>
-        <div class="flex items-center justify-center min-h-screen p-4 sm:p-6 lg:p-8">
-            <div class="bg-gray-900/80 backdrop-blur-sm w-full max-w-4xl rounded-2xl shadow-lg shadow-violet-500/20 p-6 md:p-10 border border-gray-700/50 my-16">
-                
-                <header class="flex flex-col md:flex-row items-center md:items-start text-center md:text-left fade-in-up"><div class="avatar-wrap flex-shrink-0 mb-6 md:mb-0 md:mr-8"><img id="profile-image" class="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover border-4 border-gray-700 shadow-md" src="./images/main.jpg" alt="プロフィール画像"></div><div class="w-full"><h1 class="text-4xl lg:text-5xl font-bold text-violet-400" data-i18n="name">吉川 和之</h1><p class="text-violet-500 font-medium mt-2 text-lg" data-i18n="role">AI Engineer & Researcher</p>
-<p class="mt-4 text-gray-400 leading-relaxed" data-i18n="specialtyLine">専門: 人工知能×脳神経科学</p>
+        <!-- ヒーロー：プロフィールと、ドラッグで回せる 3D の脳 -->
+        <section id="top" class="hero">
+            <div class="hero-grid max-w-6xl mx-auto px-4 sm:px-6">
+                <header class="hero-profile hud-panel fade-in-up">
+                    <p class="hud-status" aria-hidden="true"><span class="hud-status-dot"></span>NEURAL LINK · ONLINE</p>
+                    <div class="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-6"><div class="avatar-wrap flex-shrink-0"><img id="profile-image" class="w-28 h-28 md:w-32 md:h-32 rounded-full object-cover border-4 border-gray-700 shadow-md" src="./images/main.jpg" alt="プロフィール画像"></div><div class="w-full"><h1 class="text-4xl lg:text-5xl font-bold text-violet-300" data-i18n="name">吉川 和之</h1><p class="text-cyan-300 font-medium mt-2 text-lg" data-i18n="role">AI Engineer & Researcher</p></div></div>
+                    <p class="hero-tagline mt-6" data-i18n="heroTagline">脳 × 世界モデルで、フルダイブの世界をつくる。</p>
+<p class="mt-4 text-gray-400 leading-relaxed" data-i18n="specialtyLine">専門: 世界モデル × 脳 (BMI・脳波解析)</p>
 <p class="mt-2 text-gray-400" data-i18n="experienceLine">主な研究開発経験: 人工知能、ロボティクス、ブレインマシンインターフェース、量子コンピュータ</p>
-<div class="mt-6 flex justify-center md:justify-start space-x-4"><a href="https://github.com/K0909github" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-violet-400 transition-colors" aria-label="GitHub"><svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.168 6.839 9.492.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.031-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.378.203 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.338 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.001 10.001 0 0022 12c0-5.523-4.477-10-10-10z" clip-rule="evenodd"></path></svg></a><a href="https://www.linkedin.com/in/kazuyuki-yoshikawa-35a3ab33a/" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-violet-400 transition-colors" aria-label="LinkedIn"><svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a></div></div></header>
-                <main class="mt-12">
+<div class="mt-6 flex justify-center sm:justify-start space-x-4"><a href="https://github.com/K0909github" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-violet-400 transition-colors" aria-label="GitHub"><svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.168 6.839 9.492.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.031-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.378.203 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.338 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.001 10.001 0 0022 12c0-5.523-4.477-10-10-10z" clip-rule="evenodd"></path></svg></a><a href="https://www.linkedin.com/in/kazuyuki-yoshikawa-35a3ab33a/" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-violet-400 transition-colors" aria-label="LinkedIn"><svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a></div></header>
+                <div class="brain-stage fade-in-up">
+                    <canvas id="brain-canvas" role="img" aria-label="脳のニューラルネットワークの 3D 可視化"></canvas>
+                    <span class="brain-corner brain-corner--tl" aria-hidden="true">CORTEX MAP · V/M/C</span>
+                    <span class="brain-corner brain-corner--br" aria-hidden="true" data-i18n="brainHint">ドラッグで回転 / クリックで刺激</span>
+                </div>
+            </div>
+
+            <div class="max-w-6xl mx-auto px-4 sm:px-6 w-full">
+                <nav class="theme-tiles" aria-label="Research themes">
+                    <a class="theme-tile" href="#projects" data-tile="brain"><canvas aria-hidden="true"></canvas><span class="theme-tile-index" aria-hidden="true">01 / BRAIN</span><span class="theme-tile-text"><span class="theme-tile-title" data-i18n="tileBrainTitle">脳</span><span class="theme-tile-desc" data-i18n="tileBrainDesc">脳波・BMI で、脳の信号を読み解く</span></span></a>
+                    <a class="theme-tile" href="#skills" data-tile="world"><canvas aria-hidden="true"></canvas><span class="theme-tile-index" aria-hidden="true">02 / WORLD MODEL</span><span class="theme-tile-text"><span class="theme-tile-title" data-i18n="tileWorldTitle">世界モデル</span><span class="theme-tile-desc" data-i18n="tileWorldDesc">世界を内側に学び、次に起こることを予測する</span></span></a>
+                    <a class="theme-tile" href="#materials" data-tile="quantum"><canvas aria-hidden="true"></canvas><span class="theme-tile-index" aria-hidden="true">03 / QUANTUM</span><span class="theme-tile-text"><span class="theme-tile-title" data-i18n="tileQuantumTitle">量子コンピュータ</span><span class="theme-tile-desc" data-i18n="tileQuantumDesc">ダイヤモンド量子ビットと量子アルゴリズム</span></span></a>
+                    <a class="theme-tile" href="#vision" data-tile="dive"><canvas aria-hidden="true"></canvas><span class="theme-tile-index" aria-hidden="true">04 / FULL-DIVE</span><span class="theme-tile-text"><span class="theme-tile-title" data-i18n="tileDiveTitle">フルダイブ</span><span class="theme-tile-desc" data-i18n="tileDiveDesc">脳と仮想世界を直接つなぐ</span></span></a>
+                </nav>
+            </div>
+
+            <a href="#vision" class="hero-scroll" aria-label="Scroll to vision">SCROLL</a>
+        </section>
+
+        <!-- ビジョン：脳を読む → 世界をモデル化する → フルダイブ。量子コンピュータが計算基盤 -->
+        <section id="vision" class="vision fade-in-up scroll-mt-16">
+            <div class="max-w-6xl mx-auto px-4 sm:px-6">
+                <p class="vision-kicker" aria-hidden="true">// VISION</p>
+                <h2 class="vision-title" data-i18n="visionTitle">脳を読み、世界を予測し、もう一つの世界へ。</h2>
+                <p class="vision-lead" data-i18n="visionLead">全ては、SAO のようなフルダイブの世界を実現するために。</p>
+                <ol class="vision-flow">
+                    <li class="vision-node hud-panel">
+                        <span class="vision-step" aria-hidden="true">01 / BRAIN</span>
+                        <h3 data-i18n="visionStep1Title">脳を読む</h3>
+                        <p data-i18n="visionStep1Desc">脳波や BMI で、知覚や意図を神経信号から読み解く。</p>
+                        <span class="vision-link" aria-hidden="true"></span>
+                    </li>
+                    <li class="vision-node hud-panel">
+                        <span class="vision-step" aria-hidden="true">02 / WORLD MODEL</span>
+                        <h3 data-i18n="visionStep2Title">世界をモデル化する</h3>
+                        <p data-i18n="visionStep2Desc">世界モデルで環境の内部表現を学び、次に起こることを予測する。</p>
+                        <span class="vision-link" aria-hidden="true"></span>
+                    </li>
+                    <li class="vision-node hud-panel">
+                        <span class="vision-step" aria-hidden="true">03 / FULL-DIVE</span>
+                        <h3 data-i18n="visionStep3Title">もう一つの世界へ</h3>
+                        <p data-i18n="visionStep3Desc">脳と仮想世界を直接つなぎ、五感ごと入り込める世界をつくる。</p>
+                    </li>
+                </ol>
+                <div class="vision-foundation">
+                    <span class="vision-step" aria-hidden="true">FOUNDATION / QUANTUM</span>
+                    <h3 data-i18n="visionFoundationTitle">量子コンピュータ</h3>
+                    <p data-i18n="visionFoundationDesc">膨大な世界と脳のシミュレーションを支える、次の計算基盤。</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="flex justify-center px-4 pb-16 sm:px-6 lg:px-8">
+            <div class="hud-panel hud-grid bg-gray-900/80 backdrop-blur-sm w-full max-w-4xl rounded-2xl shadow-lg shadow-violet-500/20 p-6 md:p-10 border border-gray-700/50">
+                <main>
                     <section id="activities" class="fade-in-up scroll-mt-28"><h2 class="text-2xl font-bold text-violet-400 border-b-2 border-violet-700 pb-2 mb-4" data-i18n="activitiesTitle">所属・活動経験</h2>
                         <!-- 経歴・学歴・活動をそれぞれ新しい順のタイムラインで並べる。is-current は現在も続いている所属 -->
                         <h3 class="text-lg font-bold text-violet-300 mt-2 mb-4" data-i18n="expGroupWork">経歴</h3>
@@ -111,18 +174,6 @@
                             <li class="exp-item">
                                 <div class="exp-head"><h4 class="font-semibold text-violet-300" data-i18n="affRakutenMobile">楽天モバイル株式会社</h4><span class="exp-period" data-i18n="periodRakuten">2026年9月 (1カ月)</span></div>
                                 <p class="mt-1 text-sm text-gray-400" data-i18n="roleRakutenIntern">Applied AI Research Engineer インターン</p>
-                            </li>
-                            <li class="exp-item">
-                                <div class="exp-head"><h4 class="font-semibold text-violet-300" data-i18n="affDocomo">株式会社NTTドコモ</h4><span class="exp-period" data-i18n="periodDocomo">2026年9月</span></div>
-                                <p class="mt-1 text-sm text-gray-400" data-i18n="roleDocomoIntern">ハッカソンインターン (ベストテクノロジー賞受賞)</p>
-                            </li>
-                            <li class="exp-item">
-                                <div class="exp-head"><h4 class="font-semibold text-violet-300" data-i18n="affNttEast">NTT東日本株式会社</h4><span class="exp-period" data-i18n="periodNttEast">2026年8月 (10日間)</span></div>
-                                <p class="mt-1 text-sm text-gray-400" data-i18n="roleNttEastIntern">AIエンジニア インターン</p>
-                            </li>
-                            <li class="exp-item">
-                                <div class="exp-head"><h4 class="font-semibold text-violet-300" data-i18n="affM3">エムスリー株式会社</h4><span class="exp-period" data-i18n="periodM3">2026年8月 (2日間)</span></div>
-                                <p class="mt-1 text-sm text-gray-400" data-i18n="roleM3Intern">データサイエンティスト インターン</p>
                             </li>
                             <li class="exp-item is-current">
                                 <div class="exp-head"><h4 class="font-semibold text-violet-300" data-i18n="affFastNeura">株式会社FastNeura</h4><span class="exp-period" data-i18n="periodFastNeura">2025年6月 – 現在</span></div>
@@ -149,12 +200,28 @@
                         <h3 class="text-lg font-bold text-violet-300 mt-8 mb-4" data-i18n="expGroupActivities">活動・プログラム</h3>
                         <ol class="exp-timeline">
                             <li class="exp-item">
+                                <div class="exp-head"><h4 class="font-semibold text-violet-300" data-i18n="affDocomo">株式会社NTTドコモ</h4><span class="exp-period" data-i18n="periodDocomo">2026年9月 (5日間)</span></div>
+                                <p class="mt-1 text-sm text-gray-400" data-i18n="roleDocomoIntern">ハッカソンインターン (ベストテクノロジー賞受賞)</p>
+                            </li>
+                            <li class="exp-item">
+                                <div class="exp-head"><h4 class="font-semibold text-violet-300" data-i18n="affNttEast">NTT東日本株式会社</h4><span class="exp-period" data-i18n="periodNttEast">2026年8月 (10日間)</span></div>
+                                <p class="mt-1 text-sm text-gray-400" data-i18n="roleNttEastIntern">AIエンジニア インターン</p>
+                            </li>
+                            <li class="exp-item">
+                                <div class="exp-head"><h4 class="font-semibold text-violet-300" data-i18n="affM3">エムスリー株式会社</h4><span class="exp-period" data-i18n="periodM3">2026年8月 (2日間)</span></div>
+                                <p class="mt-1 text-sm text-gray-400" data-i18n="roleM3Intern">データサイエンティスト インターン</p>
+                            </li>
+                            <li class="exp-item">
                                 <div class="exp-head"><h4 class="font-semibold text-violet-300" data-i18n="affMatsuoComp2025">東京大学 松尾研究室 LLMコンペ2025</h4><span class="exp-period" data-i18n="periodLlmComp">2025年</span></div>
                                 <p class="mt-1 text-sm text-gray-400" data-i18n="llmCompWinnerDev">優勝チーム開発者認定</p>
                             </li>
                             <li class="exp-item">
                                 <div class="exp-head"><h4 class="font-semibold text-violet-300" data-i18n="affOsakaUniv">大阪大学</h4><span class="exp-period" data-i18n="periodOsakaQuantum">2024年10月</span></div>
                                 <p class="mt-1 text-sm text-gray-400" data-i18n="quantumWorkshopGraduate">量子ソフトウェア勉強会 修了生</p>
+                            </li>
+                            <li class="exp-item">
+                                <div class="exp-head"><h4 class="font-semibold text-violet-300" data-i18n="affNaist">奈良先端科学技術大学院大学</h4><span class="exp-period" data-i18n="periodNaist">2024年6月 (2日間)</span></div>
+                                <p class="mt-1 text-sm text-gray-400" data-i18n="compBehaviorNeuroSeminarGraduate">計算行動神経科学スプリングセミナー 修了生</p>
                             </li>
                             <li class="exp-item">
                                 <div class="exp-head"><h4 class="font-semibold text-violet-300" data-i18n="affMatsuoLectures">東京大学 松尾・岩澤研究室 講義プログラム</h4><span class="exp-period" data-i18n="periodMatsuoLectures">2024年4月 –</span></div>
@@ -213,7 +280,8 @@
     </div>
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-WY6717KZSQ"></script>
-    <script defer src="./script.js?v=20261118"></script>
+    <script defer src="./script.js?v=20261118-2"></script>
+    <script defer src="./visuals.js?v=20261118-2"></script>
 </body>
 </html>
 

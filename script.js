@@ -29,7 +29,7 @@ function markSplashDone() {
     splashCallbacks.splice(0).forEach(callback => callback());
 }
 
-// カーソル位置は背景のマトリックスとグローの両方で参照する
+// カーソル位置は背景のニューラルネットワーク・3D の脳・グローで参照する
 const pointer = { x: 0, y: 0, active: false };
 window.addEventListener('pointermove', event => {
     pointer.x = event.clientX;
@@ -48,107 +48,82 @@ document.documentElement.addEventListener('mouseleave', () => {
     pointer.active = false;
 });
 
-window.addEventListener('load', () => {
-    const splash = document.getElementById('splash-screen');
-    if (!splash) {
+// 起動演出：脳との同期ログを流し、100% で中心へダイブしてページを表示する。
+// 毎回だと煩わしいので同じセッション内の 2 回目以降と、動きを減らす設定では出さない
+const BOOT_LINES = [
+    '> NEURAL INTERFACE :: boot',
+    '> EEG 64ch calibration ............ OK',
+    '> cortical signal decoder ......... OK',
+    '> world model :: latent dynamics .. LOADED',
+    '> quantum co-processor ............ ONLINE',
+    '> sensory sync .................... 100%',
+    '> DIVE',
+];
+
+function runBootSequence() {
+    const boot = document.getElementById('boot-screen');
+    if (!boot) {
         markSplashDone();
         return;
     }
 
-    setTimeout(() => {
-        splash.classList.add('fade-out');
+    let bootedBefore = false;
+    try {
+        bootedBefore = sessionStorage.getItem('neural-booted') === '1';
+        sessionStorage.setItem('neural-booted', '1');
+    } catch (error) {
+        // ストレージが使えない環境では毎回演出を出す
+    }
+    if (bootedBefore || reduceMotion) {
+        boot.remove();
         markSplashDone();
-    }, 4500);
-
-    splash.addEventListener('transitionend', () => {
-        splash.style.display = 'none';
-    });
-});
-
-const canvas = document.getElementById('matrix-canvas');
-if (canvas) {
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    const characters = '01';
-    const fontSize = 16;
-    const columns = Math.floor(canvas.width / fontSize);
-    const drops = [];
-
-    for (let index = 0; index < columns; index++) {
-        drops[index] = 1;
+        return;
     }
 
-    function drawMatrix() {
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        ctx.font = `${fontSize}px monospace`;
+    const log = document.getElementById('boot-log');
+    const percent = document.getElementById('boot-percent');
+    const duration = 2400;
+    const start = performance.now();
+    const timers = BOOT_LINES.map((line, index) => setTimeout(() => {
+        log.textContent += `${line}\n`;
+    }, (index * duration) / BOOT_LINES.length));
+    let finished = false;
 
-        for (let index = 0; index < drops.length; index++) {
-            const text = characters.charAt(Math.floor(Math.random() * characters.length));
-            const x = index * fontSize;
-            const y = drops[index] * fontSize;
-            // カーソル付近の文字だけ明るくして、背景が手の動きに反応するようにする
-            const nearPointer = pointer.active && Math.hypot(x - pointer.x, y - pointer.y) < 110;
-            ctx.fillStyle = nearPointer ? '#ede9fe' : '#8b5cf6';
-            ctx.fillText(text, x, y);
-            drops[index]++;
-
-            if (drops[index] * fontSize > canvas.height && Math.random() > 0.975) {
-                drops[index] = 0;
-            }
-        }
-    }
-
-    // requestAnimationFrame は背面タブで自動停止し、33ms スロットルで従来の描画間隔を保つ
-    const frameInterval = 33;
-    let lastFrame = 0;
-    let rafId = null;
-
-    function renderMatrix(timestamp) {
-        rafId = requestAnimationFrame(renderMatrix);
-        if (timestamp - lastFrame < frameInterval) {
+    function dive() {
+        if (finished) {
             return;
         }
-        lastFrame = timestamp;
-        drawMatrix();
+        finished = true;
+        timers.forEach(clearTimeout);
+        percent.textContent = '100';
+        boot.classList.add('is-diving');
+        document.body.classList.add('is-arriving');
+        markSplashDone();
+        setTimeout(() => {
+            boot.remove();
+            document.body.classList.remove('is-arriving');
+        }, 900);
     }
 
-    function startMatrix() {
-        if (rafId === null) {
-            rafId = requestAnimationFrame(renderMatrix);
+    function tick(now) {
+        if (finished) {
+            return;
         }
-    }
-
-    function stopMatrix() {
-        if (rafId !== null) {
-            cancelAnimationFrame(rafId);
-            rafId = null;
-        }
-    }
-
-    document.addEventListener('visibilitychange', () => {
-        if (document.hidden) {
-            stopMatrix();
+        const progress = Math.min((now - start) / duration, 1);
+        percent.textContent = String(Math.round(progress * 100));
+        if (progress < 1) {
+            requestAnimationFrame(tick);
         } else {
-            startMatrix();
+            dive();
         }
-    });
+    }
 
-    startMatrix();
-
-    window.addEventListener('resize', () => {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        // canvas 幅に合わせて drops を再構成（広げた分は 1 で埋め、縮めた分は切り捨て）
-        const nextColumns = Math.floor(canvas.width / fontSize);
-        for (let index = drops.length; index < nextColumns; index++) {
-            drops[index] = 1;
-        }
-        drops.length = nextColumns;
-    });
+    boot.addEventListener('click', dive);
+    window.addEventListener('keydown', dive, { once: true });
+    requestAnimationFrame(tick);
 }
+
+runBootSequence();
 
 const profileImage = document.getElementById('profile-image');
 if (profileImage) {
@@ -531,17 +506,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const dict = {
         en: {
-            navHome: 'Home', navActivities: 'Activities', navProjects: 'Projects', navAchievements: 'Achievements', navArticles: 'Articles',
+            navHome: 'Home', navVision: 'Vision', navActivities: 'Activities', navProjects: 'Projects', navAchievements: 'Achievements', navArticles: 'Articles',
             home: 'Home', activities: 'Activities', projects: 'Projects', achievements: 'Achievements', qualifications: 'Qualifications', skills: 'Skills', materials: 'Materials', hobbies: 'Hobbies',
             name: 'Kazuyuki Yoshikawa', role: 'AI Engineer & Researcher',
-            specialtyLine: 'Specialty: Artificial Intelligence × Neuroscience', experienceLine: 'Main R&D Experience: AI, Robotics, Brain-Machine Interface, Quantum Computing', interestLine: 'Interest: Artificial Consciousness',
+            specialtyLine: 'Specialty: World Models × the Brain (BMI / EEG analysis)', heroTagline: 'Building full-dive worlds through the brain × world models.', brainHint: 'Drag to rotate / click to stimulate',experienceLine: 'Main R&D Experience: AI, Robotics, Brain-Machine Interface, Quantum Computing', interestLine: 'Interest: Artificial Consciousness',
             activitiesTitle: 'Affiliations & Activities',
-            affFastNeura: 'FastNeura', affUnseed: 'Unseed', affEpicAi: 'EpicAI',affRakutenMobile: 'Rakuten Mobile', affNttEast: 'NTT East', affDocomo: 'NTT Docomo', affM3: 'M3, Inc.', affMatsuoLlmatch: 'Matsuo Lab (UTokyo) LLMATCH', affMatsuoComp2025: 'Matsuo Lab LLM Competition 2025', affOsakaUniv: 'Osaka University',affHyogoDept: 'University of Hyogo Dept. EE & Info Engineering', affHyogoGradLab: 'University of Hyogo Graduate School Bio-Information Analysis Lab',
-            roleFastNeura: 'AI Engineer & Researcher (Contract)', roleUnseed: 'Engineer (Contract)', roleEpicAi: 'AI Engineer (Contract)',roleRakutenIntern: 'Applied AI Research Engineer Intern', roleNttEastIntern: 'AI Engineer Intern', roleDocomoIntern: 'Hackathon Intern (Best Technology Award)', roleM3Intern: 'Data Scientist Intern', worldModelResearcher: 'World Model Researcher (1st & 2nd Cohort)', llmCompWinnerDev: 'Winner Team Developer Certification', quantumWorkshopGraduate: 'Quantum Software Study Group Graduate',quantumResearch: 'Quantum Computing Research', eegResearch: 'EEG Analysis Research',
+            affFastNeura: 'FastNeura', affUnseed: 'Unseed', affEpicAi: 'EpicAI',affRakutenMobile: 'Rakuten Mobile', affNttEast: 'NTT East', affDocomo: 'NTT Docomo', affM3: 'M3, Inc.', affMatsuoLlmatch: 'Matsuo Lab (UTokyo) LLMATCH', affMatsuoComp2025: 'Matsuo Lab LLM Competition 2025', affOsakaUniv: 'Osaka University', affNaist: 'NAIST', affHyogoDept: 'University of Hyogo Dept. EE & Info Engineering', affHyogoGradLab: 'University of Hyogo Graduate School Bio-Information Analysis Lab',
+            roleFastNeura: 'AI Engineer & Researcher (Contract)', roleUnseed: 'Engineer (Contract)', roleEpicAi: 'AI Engineer (Contract)',roleRakutenIntern: 'Applied AI Research Engineer Intern', roleNttEastIntern: 'AI Engineer Intern', roleDocomoIntern: 'Hackathon Intern (Best Technology Award)', roleM3Intern: 'Data Scientist Intern', worldModelResearcher: 'World Model Researcher (1st & 2nd Cohort)', llmCompWinnerDev: 'Winner Team Developer Certification', quantumWorkshopGraduate: 'Quantum Software Study Group Graduate', compBehaviorNeuroSeminarGraduate: 'Computational Behavioral Neuroscience Spring Seminar Graduate', quantumResearch: 'Quantum Computing Research', eegResearch: 'EEG Analysis Research',
             expGroupWork: 'Experience', expGroupEducation: 'Education', expGroupActivities: 'Activities & Programs',
             affMatsuoLectures: 'Matsuo-Iwasawa Lab (UTokyo) Lecture Programs', roleMatsuoLectures: 'Completed with certificates (World Models, LLMs, Deep RL, and more)',
-            periodUnseed: 'Nov 2026 – Present', periodEpicAi: 'Nov 2026 – Present', periodRakuten: 'Sep 2026 (1 month)', periodDocomo: 'Sep 2026', periodNttEast: 'Aug 2026 (10 days)', periodM3: 'Aug 2026 (2 days)', periodFastNeura: 'Jun 2025 – Present', periodLlmatch: 'Oct 2024 – Jul 2025',
-            periodHyogoGrad: 'Apr 2026 – Mar 2028 (expected)', periodHyogoDept: 'Apr 2022 – Mar 2026', periodLlmComp: '2025', periodOsakaQuantum: 'Oct 2024', periodMatsuoLectures: 'Apr 2024 –',
+            periodUnseed: 'Nov 2026 – Present', periodEpicAi: 'Nov 2026 – Present', periodRakuten: 'Sep 2026 (1 month)', periodDocomo: 'Sep 2026 (5 days)',periodNttEast: 'Aug 2026 (10 days)', periodM3: 'Aug 2026 (2 days)', periodFastNeura: 'Jun 2025 – Present', periodLlmatch: 'Oct 2024 – Jul 2025',
+            periodHyogoGrad: 'Apr 2026 – Mar 2028 (expected)', periodHyogoDept: 'Apr 2022 – Mar 2026', periodLlmComp: '2025', periodOsakaQuantum: 'Oct 2024', periodNaist: 'Jun 2024 (2 days)', periodMatsuoLectures: 'Apr 2024 –',
+            tileBrainTitle: 'Brain', tileBrainDesc: 'Decoding neural signals with EEG & BMI', tileWorldTitle: 'World Models', tileWorldDesc: 'Learning the world inside to predict what comes next',
+            tileQuantumTitle: 'Quantum Computing', tileQuantumDesc: 'Diamond qubits & quantum algorithms', tileDiveTitle: 'Full-Dive', tileDiveDesc: 'Connecting the brain directly to virtual worlds',
+            visionTitle: 'Read the brain, predict the world, and dive into another one.', visionLead: 'All of it, to make a full-dive world like SAO real.',
+            visionStep1Title: 'Read the brain', visionStep1Desc: 'Decode perception and intention from neural signals with EEG and BMI.',
+            visionStep2Title: 'Model the world', visionStep2Desc: 'Learn internal representations of the environment with world models and predict what happens next.',
+            visionStep3Title: 'Dive into another world', visionStep3Desc: 'Connect the brain directly to virtual worlds you can enter with all five senses.',
+            visionFoundationTitle: 'Quantum Computing', visionFoundationDesc: 'A next-generation computing foundation for simulating vast worlds and brains.',
             projectsTitle: 'Project Examples',
             projectMegTitle: 'MEG Brain Signal Classifier', projectMegDesc: 'Classifies the image class a subject is viewing from MEG signals using fine-tuned CLIP.',
             projectSlackBotTitle: 'Slack Question Aggregator Bot', projectSlackBotDesc: 'Uses AWS (Bedrock, EventBridge) and Slack API to email frequent questions every 24h.',
