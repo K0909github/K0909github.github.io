@@ -17,7 +17,7 @@
     </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- styles.css / script.js / visuals.js を変更したら ?v= を更新する（ブラウザに古いファイルが残るのを防ぐ） -->
-    <link rel="stylesheet" href="./styles.css?v=20261118-4">
+    <link rel="stylesheet" href="./styles.css?v=20261118-5">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
@@ -64,7 +64,6 @@
                     <li><a href="#qualifications" class="nav-link text-gray-300 hover:text-violet-300 transition" data-i18n="qualificationsTitle">資格</a></li>
                     <li><a href="#skills" class="nav-link text-gray-300 hover:text-violet-300 transition" data-i18n="skillsTitle">スキル</a></li>
                     <li><a href="#materials" class="nav-link text-gray-300 hover:text-violet-300 transition" data-i18n="materialsTitle">発表資料</a></li>
-                    <li><a href="#hobbies" class="nav-link text-gray-300 hover:text-violet-300 transition" data-i18n="hobbiesTitle">趣味</a></li>
                     <li>
                         <div class="flex items-center bg-gray-800/60 border border-violet-600/40 rounded-full overflow-hidden text-xs">
                             <button id="lang-ja" class="px-3 py-1 text-violet-300 font-semibold bg-violet-800/30" data-lang="ja">JA</button>
@@ -84,7 +83,6 @@
                     <li><a href="#qualifications" class="block px-3 py-2 rounded-lg bg-gray-800/70 text-gray-200 hover:bg-violet-800/40" data-i18n="qualificationsTitle">資格</a></li>
                     <li><a href="#skills" class="block px-3 py-2 rounded-lg bg-gray-800/70 text-gray-200 hover:bg-violet-800/40" data-i18n="skillsTitle">スキル</a></li>
                     <li><a href="#materials" class="block px-3 py-2 rounded-lg bg-gray-800/70 text-gray-200 hover:bg-violet-800/40" data-i18n="materialsTitle">発表資料</a></li>
-                    <li><a href="#hobbies" class="block px-3 py-2 rounded-lg bg-gray-800/70 text-gray-200 hover:bg-violet-800/40" data-i18n="hobbiesTitle">趣味</a></li>
                     <li class="pt-2">
                         <div class="flex items-center bg-gray-800/60 border border-violet-600/40 rounded-full overflow-hidden text-xs w-max">
                             <button id="m-lang-ja" class="px-3 py-1 text-violet-300 font-semibold bg-violet-800/30" data-lang="ja">JA</button>
@@ -128,8 +126,7 @@
         <section id="vision" class="vision fade-in-up scroll-mt-16">
             <div class="max-w-6xl mx-auto px-4 sm:px-6">
                 <p class="vision-kicker" aria-hidden="true">// VISION</p>
-                <h2 class="vision-title" data-i18n="visionTitle">脳を知り、知能を問い、人と AI の共生へ。</h2>
-                <p class="vision-lead" data-i18n="visionLead">目指すのは、人間と AI が共生する社会。</p>
+                <h2 class="vision-title" data-i18n="visionTitle">目指すのは、人間と AI が共生する社会。</h2>
                 <ol class="vision-flow">
                     <li class="vision-node hud-panel">
                         <span class="vision-step" aria-hidden="true">01 / BRAIN</span>
@@ -273,16 +270,14 @@
                         <div class="bg-gray-800 p-4 rounded-lg"><h4 class="font-semibold text-violet-300" data-i18n="achQuantumStudyTitle">量子ソフトウェア勉強会</h4><p class="text-sm text-gray-500" data-i18n="achQuantumStudyOrg">大阪大学</p><p class="mt-2 text-sm text-gray-400" data-i18n="achQuantumStudyDesc">量子コンピュータのプログラミングに必要な基礎知識と、主要な量子アルゴリズム（Shorのアルゴリズム, Groverのアルゴリズム等）について学びました。</p><button class="certificate-btn mt-2 text-sm font-medium text-violet-400 hover:text-violet-300" data-src="./images/quantum.png"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline-block" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" /></svg> <span data-i18n="showCertificate">証明書を表示</span></button></div><div class="bg-gray-800 p-4 rounded-lg"><h4 class="font-semibold text-violet-300" data-i18n="achCompBehaviorSeminarTitle">計算行動神経科学スプリングセミナー</h4><p class="text-sm text-gray-500" data-i18n="achCompBehaviorSeminarOrg">奈良先端科学技術大学院大学</p><p class="mt-2 text-sm text-gray-400" data-i18n="achCompBehaviorSeminarDesc">脳の計算論的モデルと、実際の神経活動データや行動データを結びつけるためのアプローチについて、講義と実践を通じて学びました。</p></div></div></section>
                     
                     <section id="materials" class="mt-10 fade-in-up scroll-mt-28"><h2 class="text-2xl font-bold text-violet-400 border-b-2 border-violet-700 pb-2 mb-4" data-i18n="materialsTitle">発表資料</h2><div class="space-y-4"><a href="https://github.com/K0909github/paper-hacks" target="_blank" rel="noopener noreferrer" class="block bg-gray-800 p-4 rounded-lg border border-gray-700 hover:border-violet-600 transition-all"><h4 class="font-semibold text-violet-300" data-i18n="matPaperHacksTitle">Paper & Hacks</h4><p class="text-sm text-gray-500 mt-1" data-i18n="matPaperHacksDesc">世界モデル、ロボット、マルチモーダル基盤モデルについてのサーベイまとめ</p></a><a href="https://github.com/K0909github/ATR-research-plan" target="_blank" rel="noopener noreferrer" class="block bg-gray-800 p-4 rounded-lg border border-gray-700 hover:border-violet-600 transition-all"><h4 class="font-semibold text-violet-300" data-i18n="matAtrPlanTitle">ATR-BRI研究計画</h4><p class="text-sm text-gray-500 mt-1" data-i18n="matAtrPlanDesc">NAIST/ATR院用の研究計画書</p></a><a href="https://github.com/K0909github/Quantum-diamond" target="_blank" rel="noopener noreferrer" class="block bg-gray-800 p-4 rounded-lg border border-gray-700 hover:border-violet-600 transition-all"><h4 class="font-semibold text-violet-300" data-i18n="matQuantumDiamondTitle">量子ダイヤモンド研究</h4><p class="text-sm text-gray-500 mt-1" data-i18n="matQuantumDiamondDesc">ダイヤモンドを用いた量子コンピュータ研究</p></a><a href="https://github.com/K0909github/electroencephalogram-analysis" target="_blank" rel="noopener noreferrer" class="block bg-gray-800 p-4 rounded-lg border border-gray-700 hover:border-violet-600 transition-all"><h4 class="font-semibold text-violet-300" data-i18n="matEegPlanTitle">脳波解析研究計画</h4><p class="text-sm text-gray-500 mt-1" data-i18n="matEegPlanDesc">脳波(EEG)データを用いた感情解析の研究計画書</p></a><a href="https://github.com/K0909github/graphmae2-Docker" target="_blank" rel="noopener noreferrer" class="block bg-gray-800 p-4 rounded-lg border border-gray-700 hover:border-violet-600 transition-all"><h4 class="font-semibold text-violet-300" data-i18n="matDlhacksTitle">DLHacks</h4><p class="text-sm text-gray-500 mt-1" data-i18n="matDlhacksDesc">グラフニューラルネットワークとDocker環境構築に関する発表資料</p></a><a href="https://github.com/K0909github/consciousnessai-attention-schema-theory-" target="_blank" rel="noopener noreferrer" class="block bg-gray-800 p-4 rounded-lg border border-gray-700 hover:border-violet-600 transition-all"><h4 class="font-semibold text-violet-300" data-i18n="matDlhacksConsciousTitle">DLHacks（意識理論×AI）</h4><p class="text-sm text-gray-500 mt-1" data-i18n="matDlhacksConsciousDesc">意識理論×AI、人工意識の論文と実装に関する資料</p></a><a href="https://github.com/K0909github/ThousandBrains" target="_blank" rel="noopener noreferrer" class="block bg-gray-800 p-4 rounded-lg border border-gray-700 hover:border-violet-600 transition-all"><h4 class="font-semibold text-violet-300" data-i18n="matThousandBrainsTitle">ThousandBrains</h4><p class="text-sm text-gray-500 mt-1" data-i18n="matThousandBrainsDesc">Thousand Brains Theory に関する資料</p></a><a href="https://github.com/K0909github/From-Brain-Inspired-Intelligence-to-Artificial-General-Intelligence" target="_blank" rel="noopener noreferrer" class="block bg-gray-800 p-4 rounded-lg border border-gray-700 hover:border-violet-600 transition-all"><h4 class="font-semibold text-violet-300" data-i18n="matBrainInspiredTitle">Brain-Inspired-Intelligence</h4><p class="text-sm text-gray-500 mt-1" data-i18n="matBrainInspiredDesc">脳に着想を得た知能アーキテクチャとAGIへの道筋に関する資料</p></a></div></section>
-                    
-                    <section id="hobbies" class="mt-10 fade-in-up scroll-mt-28"><h2 class="text-2xl font-bold text-violet-400 border-b-2 border-violet-700 pb-2 mb-4" data-i18n="hobbiesTitle">趣味</h2><div class="flex flex-wrap gap-3"><span class="bg-violet-900 text-violet-300 text-sm font-medium px-4 py-2 rounded-full" data-i18n="hobbyResearch">研究</span><span class="bg-violet-900 text-violet-300 text-sm font-medium px-4 py-2 rounded-full" data-i18n="hobbyDevelopment">開発</span><span class="bg-violet-900 text-violet-300 text-sm font-medium px-4 py-2 rounded-full" data-i18n="hobbyProgramming">プログラミング</span><span class="bg-violet-900 text-violet-300 text-sm font-medium px-4 py-2 rounded-full" data-i18n="hobbyAnime">アニメ</span><span class="bg-violet-900 text-violet-300 text-sm font-medium px-4 py-2 rounded-full" data-i18n="hobbyGames">ゲーム</span></div></section>
                 </main>
             </div>
         </div>
     </div>
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-WY6717KZSQ"></script>
-    <script defer src="./script.js?v=20261118-4"></script>
-    <script defer src="./visuals.js?v=20261118-4"></script>
+    <script defer src="./script.js?v=20261118-5"></script>
+    <script defer src="./visuals.js?v=20261118-5"></script>
 </body>
 </html>
 

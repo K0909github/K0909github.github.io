@@ -20,12 +20,19 @@ html {
     overflow: hidden;
 }
 
+/* 画像（1600×1200）を画面いっぱいに引き伸ばすと粗くなるので、元の解像度を超えない大きさで中央に置き、縁だけ背景へ溶かす */
 .boot-backdrop {
     position: absolute;
-    inset: -5%;
-    background: url('./images/2110581.jpg') center / cover no-repeat;
-    opacity: 0.16;
-    filter: blur(2px) saturate(1.4);
+    inset: 0;
+    margin: auto;
+    width: min(92vw, 800px);
+    height: auto;
+    max-height: 92vh;
+    aspect-ratio: 4 / 3;
+    background: url('./images/2110581.jpg') center / contain no-repeat;
+    opacity: 0.4;
+    -webkit-mask-image: radial-gradient(closest-side, #000 62%, transparent);
+    mask-image: radial-gradient(closest-side, #000 62%, transparent);
     animation: boot-breathe 2.6s ease-in-out infinite;
 }
 
@@ -128,8 +135,7 @@ body.is-arriving .scroll-wrapper {
 
 @keyframes boot-breathe {
     50% {
-        opacity: 0.24;
-        transform: scale(1.03);
+        opacity: 0.55;
     }
 }
 
@@ -375,16 +381,6 @@ body.is-arriving .scroll-wrapper {
     }
 }
 
-#hobbies span {
-    display: inline-block;
-    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s;
-}
-
-#hobbies span:hover {
-    transform: translateY(-3px) rotate(-2deg);
-    box-shadow: 0 6px 18px -6px rgba(139, 92, 246, 0.8);
-}
-
 .burst-bit {
     position: fixed;
     left: 0;
@@ -500,7 +496,6 @@ body.is-arriving .scroll-wrapper {
 
     .fade-in-up h2::after,
     #nav-indicator,
-    #hobbies span,
     .exp-item::before {
         transition: none;
     }
@@ -856,13 +851,6 @@ main > section > h2::before {
 
 .fade-in-up.vision h2::after {
     display: none;
-}
-
-.vision-lead {
-    margin-top: 1rem;
-    text-align: center;
-    font-size: 1.05rem;
-    color: #c4b5fd;
 }
 
 .vision-flow {

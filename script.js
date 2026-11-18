@@ -507,7 +507,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const dict = {
         en: {
             navHome: 'Home', navVision: 'Vision', navActivities: 'Activities', navProjects: 'Projects', navAchievements: 'Achievements', navArticles: 'Articles',
-            home: 'Home', activities: 'Activities', projects: 'Projects', achievements: 'Achievements', qualifications: 'Qualifications', skills: 'Skills', materials: 'Materials', hobbies: 'Hobbies',
+            home: 'Home', activities: 'Activities', projects: 'Projects', achievements: 'Achievements', qualifications: 'Qualifications', skills: 'Skills', materials: 'Materials',
             name: 'Kazuyuki Yoshikawa', role: 'AI Engineer & Researcher',
             specialtyLine: 'Specialty: Artificial Intelligence × Neuroscience', heroTagline: 'From research on the brain and AI, building a society where humans and AI coexist.',brainHint: 'Drag to rotate / click to stimulate',experienceLine: 'Main R&D Experience: AI, Physical AI, Brain-Machine Interface, Quantum Computing', interestLine: 'Interest: Artificial Consciousness',
             activitiesTitle: 'Affiliations & Activities',
@@ -519,7 +519,7 @@ document.addEventListener('DOMContentLoaded', () => {
             periodHyogoGrad: 'Apr 2026 – Mar 2028 (expected)', periodHyogoDept: 'Apr 2022 – Mar 2026', periodLlmComp: '2025', periodOsakaQuantum: 'Oct 2024', periodNaist: 'Jun 2024 (2 days)', periodMatsuoLectures: 'Apr 2024 –',
             tileBrainTitle: 'Brain', tileBrainDesc: 'Decoding brain signals to inform AI development', tileWorldTitle: 'World Models', tileWorldDesc: 'Applying them to BMI, and asking what intelligence is',
             tileQuantumTitle: 'Quantum Computing', tileQuantumDesc: 'Quantum computation and the quantum-brain perspective', tileAgentTitle: 'AI Agents', tileAgentDesc: 'Building AI that works alongside people with LLMs', tileDiveTitle: 'Full-Dive', tileDiveDesc: 'Connecting the brain directly to virtual worlds',
-            visionTitle: 'Know the brain. Question intelligence. Toward human–AI coexistence.', visionLead: 'The goal: a society where humans and AI coexist.',
+            visionTitle: 'The goal: a society where humans and AI coexist.',
             visionStep1Title: 'Know the brain', visionStep1Desc: 'Decode neural signals with EEG and BMI. Bring insights from the brain into AI development, and in the far future, toward full-dive technology.',
             visionStep2Title: 'Question intelligence', visionStep2Desc: 'Apply world models to BMI, while studying world models, LLMs, and AI agents to ask what intelligence is and build true AI.',
             visionStep3Title: 'Live together', visionStep3Desc: 'Connect our understanding of the brain and AI to build a society where humans and AI coexist.',
@@ -561,8 +561,7 @@ document.addEventListener('DOMContentLoaded', () => {
             matDlhacksTitle: 'DLHacks', matDlhacksDesc: 'Presentation on GNNs and Docker environment setup.',
             matDlhacksConsciousTitle: 'DLHacks (Consciousness Theory × AI)', matDlhacksConsciousDesc: 'Materials on consciousness theory × AI and artificial consciousness implementations.',
             matThousandBrainsTitle: 'ThousandBrains', matThousandBrainsDesc: 'Materials on the Thousand Brains Theory.',
-            matBrainInspiredTitle: 'Brain-Inspired-Intelligence', matBrainInspiredDesc: 'Brain-inspired intelligence architectures and pathways toward AGI.',
-            hobbiesTitle: 'Hobbies', hobbyResearch: 'Research', hobbyDevelopment: 'Development', hobbyProgramming: 'Programming', hobbyAnime: 'Anime', hobbyGames: 'Games'
+            matBrainInspiredTitle: 'Brain-Inspired-Intelligence', matBrainInspiredDesc: 'Brain-inspired intelligence architectures and pathways toward AGI.'
         }
     };
 
