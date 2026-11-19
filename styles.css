@@ -414,18 +414,44 @@ body.is-arriving .scroll-wrapper {
 
 .exp-item {
     position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
     padding-bottom: 1.25rem;
+}
+
+/* 所属先のロゴ。色付きのロゴが暗い背景でも見えるよう、白い角丸タイルに収める */
+.exp-logo {
+    flex: 0 0 40px;
+    width: 40px;
+    height: 40px;
+    padding: 5px;
+    border-radius: 10px;
+    background: #fff;
+    object-fit: contain;
+    box-shadow: 0 0 0 1px rgba(167, 139, 250, 0.35), 0 4px 14px -6px rgba(139, 92, 246, 0.6);
+    transition: transform 0.25s, box-shadow 0.25s;
+}
+
+.exp-item:hover .exp-logo {
+    transform: translateY(-2px);
+    box-shadow: 0 0 0 1px rgba(103, 232, 249, 0.7), 0 8px 18px -6px rgba(34, 211, 238, 0.6);
+}
+
+.exp-body {
+    flex: 1;
+    min-width: 0;
 }
 
 .exp-item:last-child {
     padding-bottom: 0.25rem;
 }
 
-/* 線の上に乗る点。li の左端から padding と線の太さぶん戻して線の中心に合わせる */
+/* 線の上に乗る点。li の左端から padding と線の太さぶん戻して線の中心に合わせ、縦はロゴの中央にそろえる */
 .exp-item::before {
     content: '';
     position: absolute;
-    top: 6px;
+    top: 14px;
     left: calc(-1.5rem - 7px);
     width: 12px;
     height: 12px;
@@ -496,7 +522,8 @@ body.is-arriving .scroll-wrapper {
 
     .fade-in-up h2::after,
     #nav-indicator,
-    .exp-item::before {
+    .exp-item::before,
+    .exp-logo {
         transition: none;
     }
 }
