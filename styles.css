@@ -433,6 +433,12 @@ body.is-arriving .scroll-wrapper {
     transition: transform 0.25s, box-shadow 0.25s;
 }
 
+/* 黒背景が正式なロゴ（FastNeura）は黒いタイルに載せる */
+.exp-logo--dark {
+    padding: 2px;
+    background: #000;
+}
+
 .exp-item:hover .exp-logo {
     transform: translateY(-2px);
     box-shadow: 0 0 0 1px rgba(103, 232, 249, 0.7), 0 8px 18px -6px rgba(34, 211, 238, 0.6);
